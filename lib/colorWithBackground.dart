@@ -40,7 +40,7 @@ class _colorPageState extends State<colorPage> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: getTextWidgets()
+        children: getTextWidgets()
     );
   }
 }
