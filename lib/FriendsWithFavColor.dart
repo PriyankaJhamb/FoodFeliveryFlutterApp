@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 
@@ -34,10 +34,10 @@ class friends extends StatefulWidget {
 
 class _friendsState extends State<friends> {
   Map Friends={
-    'Vrishti': ['purple', Colors.purple],
-    'Amanjot': ['blue', Colors.blue],
-    'Mehak' : ['red', Colors.red],
-    'Neha' : ['green', Colors.green]
+    'Vrishti': ['Purple', Colors.purple],
+    'Amanjot': ['Blue', Colors.blue],
+    'Mehak' : ['Red', Colors.red],
+    'Neha' : ['Green', Colors.green]
   };
   var Friendsname=<Widget>[];
   var resultedcolor=Colors.black12;
@@ -46,7 +46,30 @@ class _friendsState extends State<friends> {
     Friends.forEach((key, value) {
       Friendsname.add(
           InkWell(
-            child: Row( children: [ Text("${key} \n " , style: TextStyle(color: Colors.black) ),SizedBox(width: 10), SizedBox(height:10),Text( "${value[0]}", style: TextStyle(color: Colors.black) ),Text("\n") ]),
+            child: Row(
+                children: [
+                  Text("${key} \n " ,
+                      style: TextStyle(
+                        color: Colors.brown,
+                        fontSize: 23,
+                        fontFamily: 'RobotoMono',
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                        decorationStyle:TextDecorationStyle.wavy,
+                      ) ),
+                  SizedBox(width: 20),
+                  SizedBox(height:10),
+                  Text(
+                      "${value[0]}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontStyle: FontStyle.italic,
+                          shadows: [
+                            Shadow(
+                                blurRadius: 10.0,
+                                color: value[1],
+                                offset: Offset(5.0, 5.0))])) ]),
             onTap: (){
               setState(() {
                 resultedcolor=value[1];

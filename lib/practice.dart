@@ -1,110 +1,58 @@
 import 'package:flutter/material.dart';
 
-final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.light().copyWith(scaffoldBackgroundColor: Colors.white),
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("My App"),
-          backgroundColor: Colors.green,
-
-        ),
-        body: Change(),
+void main(){
+  runApp(MaterialApp(
+    home: Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.purple,
       ),
-    );
-  }
+      body: Home(),
+    ),
+  ));
 }
 
-
-class Change extends StatefulWidget {
-  const Change({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  _ChangeState createState() => _ChangeState();
+  _HomeState createState() => _HomeState();
 }
 
-class _ChangeState extends State<Change> {
-  var myDefault_colors = {
-    'Orange' : Colors.orange,
-    'Black' : Colors.black,
-    'Cyan' : Colors.cyan,
-    'Brown': Colors.brown,
-    'Pink' : Colors.pink,
-    'Blue' : Colors.blue
-  };
-
-  var scaffoldColor=Colors.white;
-
-  getColors(){
-    var Colors_widgets = <Widget>[];
-
-    myDefault_colors.forEach((key, value) {
-      Colors_widgets.add(
-          Row(
-
-            children: [
-              InkWell(
-                child: Row(
-                    children:[
-                      Column(
-                          children: [Text("   "+key+"\t\t",style: TextStyle(color: Colors.teal,fontSize: 17,fontWeight: FontWeight.w700),)]
-                      ),
-                      Column(
-                          children: [
-                            Container(
-                              height: 25,
-                              width: 25,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: value,
-                              ),
-                            )
-                          ]
-                      )
-                    ]
-                )
-                ,onTap: (){
-                setState(() {
-                  scaffoldColor = value;
-                });
-              },
-              )
-            ],
-          )
-      );
+class _HomeState extends State<Home> {
+  var col;
+  var listOfFriends = {'A':Colors.brown, 'B':Colors.green, 'C':
+  Colors.deepPurple, 'D': Colors.yellow};
+  getWidgets(){
+    var widgets = <Widget>[];
+    listOfFriends.forEach((key, value) {
+      widgets.add(InkWell(
+        child: Text(key, style: TextStyle(color: Colors.pink)),
+        onTap: (){
+          setState(() {
+            col = value;
+          });
+        },
+      ));
+      widgets.add(Divider());
     });
-    return Colors_widgets;
+    return widgets;
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: scaffoldColor,
-      body: Container(
-          child: Column(
-              children: [
-                Column(
-                    children: [
-                      SizedBox(height:20)
-                    ]
-                ),
-                Column(
-                    children:
-                    getColors()
-                ),
-              ]
+    return  ListView(
+        children: [Container(
+            height: (MediaQuery.of(context).size.height) / 2,
+            color: Colors.white,
+            child: ListView(
+                children: getWidgets()
+            )
+        ),
+          Container(
+              height: (MediaQuery.of(context).size.height) / 2,
+              color: col
           )
-      ),
+        ]
     );
   }
 }
