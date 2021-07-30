@@ -28,7 +28,7 @@ class colorPage extends StatefulWidget {
 }
 
 class _colorPageState extends State<colorPage> {
-  Map colors={'pink':Colors.pink, 'brown':Colors.brown, 'blue':Colors.blue,'yellow':Colors.yellow, 'black':Colors.black};
+  Map colors={'pink':Colors.pink, 'brown':Colors.brown, 'blue':Colors.blue,'yellow':Colors.yellow};
   var scaffoldColor=Colors.orange;
   getTextWidgets(){
     var textWidgets=<Widget>[];
