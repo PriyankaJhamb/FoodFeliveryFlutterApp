@@ -42,7 +42,7 @@ class _friendsState extends State<friends> {
   };
   var Friendsname=<Widget>[];
   var resultedcolor=Colors.black12;
-  var picture=Image.asset('https://www.google.com/imgres?imgurl=https%3A%2F%2Fi.pcmag.com%2Fimagery%2Freviews%2F03aizylUVApdyLAIku1AvRV-39.1605559903.fit_scale.size_760x427.png&imgrefurl=https%3A%2F%2Fwww.pcmag.com%2Freviews%2Fgoogle-photos&tbnid=Hb99VlEqJnsWuM&vet=12ahUKEwim3bmjn4vyAhWFsksFHedKAR0QMygBegUIARDSAQ..i&docid=rNy7JQ__AGMZZM&w=758&h=427&q=google%20images&ved=2ahUKEwim3bmjn4vyAhWFsksFHedKAR0QMygBegUIARDSAQ');
+  var picture=Image.asset('../Vrishti.png');
   getwidgets(){
     Friendsname.clear();
     Friends.forEach((key, value) {

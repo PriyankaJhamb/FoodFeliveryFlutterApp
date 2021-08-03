@@ -32,6 +32,8 @@ class friends extends StatefulWidget {
   _friendsState createState() => _friendsState();
 }
 
+
+// simple friends name with  color without decoration
 class _friendsState extends State<friends> {
   Map Friends={
     'Vrishti': ['purple', Colors.purple],
