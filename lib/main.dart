@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/home/home-page.dart';
 import 'package:fooddelivery/home/splash-page.dart';
-
+import 'package:fooddelivery/learning_flutter/ReminderApp.dart';
+import 'package:fooddelivery/learning_flutter/data-passing.dart';
 // main function represents main thread
 // whatever we code in main, is executed by main thread
 // that too in a sequence
@@ -30,26 +31,22 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        "/": (context) => SplashPage(),
-        "/home": (context)=>HomePage(),
-
+        // "/": (context) => SplashPage(),
+        // "/home": (context)=>HomePage(),
+        // "/reminder": (context)=>ReminderPage(),
+        "/two": (context)=>PageTwo(),
+        "/one": (context)=>PageOne()
       },
-      initialRoute: "/",
-    );
-  }
-}
-/*
-class HomePage extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("My App"),
-      ),
-      body: ProfilePage(),
+      initialRoute: "/one",
     );
   }
 }
 
- */
+// class HomePage extends StatelessWidget {
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return PageOne();
+//   }
+// }
+
