@@ -31,7 +31,8 @@ class _PageOneState extends State<PageOne> {
             ),
             ElevatedButton(
                 onPressed: (){
-                  table_number= controllerTN.text as int ;
+                  // table_number= controllerTN.text as int;
+                  table_number= int.parse(controllerTN.text); ;
                   Navigator.pushNamed(context, "/two", arguments: table_number);
                 },
                 child: Text("SUBMIT")
@@ -56,33 +57,55 @@ class _PageTwoState extends State<PageTwo> {
   @override
 
 
+  // List<Widget> widgets=[];
+  getwidgets({int TN=0}){
+    var widgets = <Widget>[];
+    widgets.add(
+        Column(
 
-  getwidget({int TN=0}){
-    List<Widget> widgets=[];
+          children: [
+            SizedBox(
+              height: 100,
+            ),
+            Text("Table of ${TN}", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+            SizedBox(
+              height: 50,
+            )
+          ],
+        ));
     for(int i=0;i<=10;i++)
       {
         widgets.add(
-            ListView(
+            Column(
               children: [
-                Text("$TN! * $i! = $TN*i!"),
+                Text("${TN} * ${i} = ${TN*i}"),
                 Divider()
               ],
         )
-
         );
       }
-
+    widgets.add(
+      ElevatedButton(
+        onPressed: (){
+          Navigator.pop(context, TN);
+        },
+        child: Text("Go to Home"),
+      )
+    );
+    return widgets;
   }
   Widget build(BuildContext context) {
-    int TN = ModalRoute.of(context)!.settings.arguments as int;
+    int TN = ModalRoute.of(context)!.settings.arguments as int ;
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Tables"),
       ),
-      body: Center(
-        child: getwidget(TN: 5),
-      ),
+      body:  ListView(
+          children: getwidgets(TN: TN),
+        ),
+
+
     );
   }
 }
