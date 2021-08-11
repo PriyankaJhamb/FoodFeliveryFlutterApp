@@ -1,14 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/auth/login-page.dart';
 import 'package:fooddelivery/home/home-page.dart';
 import 'package:fooddelivery/home/splash-page.dart';
-import 'package:fooddelivery/learning_flutter/ReminderApp.dart';
-import 'package:fooddelivery/learning_flutter/data-passing.dart';
+
 // main function represents main thread
 // whatever we code in main, is executed by main thread
 // that too in a sequence
-void main() {
+Future<void> main() async{
   // to execute the app created by us
   // MyApp -> Object
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -31,13 +34,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        // "/": (context) => SplashPage(),
-        // "/home": (context)=>HomePage(),
-        // "/reminder": (context)=>ReminderPage(),
-        "/two": (context)=>PageTwo(),
-        "/one": (context)=>PageOne()
+        "/": (context) => SplashPage(),
+        "/home": (context)=>HomePage(),
+        "/login": (context)=>LoginPage()
       },
-      initialRoute: "/one",
+      initialRoute: "/",
     );
   }
 }
