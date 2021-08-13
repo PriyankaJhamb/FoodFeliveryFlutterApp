@@ -1,29 +1,45 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:gw2021adf1/model/user.dart' as myuser;
+import 'package:fooddelivery/model/user.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterUserPage extends StatefulWidget {
+  const RegisterUserPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterUserPageState createState() => _RegisterUserPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+
+class _RegisterUserPageState extends State<RegisterUserPage> {
 
 
-  void authenticateUser(BuildContext context) async{
+  void registerUser(BuildContext context) async{
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: loginIDController.text,
-          password: passwordController.text
+
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: loginIDController.text.trim(),
+          password: passwordController.text.trim()
       );
 
       print("User ID is:"+userCredential.user!.uid.toString());
 
       if(userCredential.user!.uid.toString().isNotEmpty){
-        Navigator.pushReplacementNamed(context, "/home");
+
+        AppUser user = AppUser(uid:userCredential.user!.uid, name:nameController.text.trim(), email:loginIDController.text.trim());
+        var dataToSave = user.toMap();
+
+        FirebaseFirestore.instance.collection("users").doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/home"));
+
+        //Navigator.pushReplacementNamed(context, "/home");
       }else{
-        // Login Failed
+        // Registration Failed
+        setState(() {
+          showLoader=false;
+          // Show a SnackBar | It will have a message (Login Failed)
+          // SnackBar() -> this is a widget which shows and goes off after some time
+        });
       }
 
 
@@ -36,11 +52,13 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  TextEditingController nameController = new TextEditingController();
   TextEditingController loginIDController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
+  bool showLoader = false;
 
   void _toggle() {
     setState(() {
@@ -50,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return showLoader ? Center(child: CircularProgressIndicator(),) : Scaffold(
         body: Stack(
           children: [
             Column(children: [
@@ -88,16 +106,72 @@ class _LoginPageState extends State<LoginPage> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.asset("assets/icon.png", fit: BoxFit.fill),
+                            Image.asset("assets/food.png", fit: BoxFit.fill),
                             SizedBox(height: 4,),
                             Text(
-                              "Login Here",
+                              "Register Yourself",
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.green,
                                   fontWeight: FontWeight.w500),
                             ),
                             SizedBox(height: 12),
+                            TextFormField(
+                              controller: nameController,
+                              style: TextStyle(
+                                  fontSize: 17.0, color: Colors.grey.shade900),
+                              keyboardType: TextInputType.text,
+                              textCapitalization: TextCapitalization.words,
+                              autofocus: false,
+                              enabled: true,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Name is required. Please Enter.';
+                                } else if (value.trim().length == 0) {
+                                  return 'Name is required. Please Enter.';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                filled: true,
+                                alignLabelWithHint: true,
+                                labelText: "Full Name",
+                                labelStyle: TextStyle(color: Colors.green),
+                                fillColor: Colors.transparent,
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(
+                                        width: 1,
+                                        style: BorderStyle.solid,
+                                        color: Colors.grey)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(
+                                        width: 1,
+                                        style: BorderStyle.solid,
+                                        color: Colors.black)),
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(
+                                        width: 1,
+                                        style: BorderStyle.solid,
+                                        color: Colors.red)),
+                                disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(
+                                        width: 1,
+                                        style: BorderStyle.solid,
+                                        color: Colors.grey)),
+                                border: UnderlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(
+                                        width: 1,
+                                        style: BorderStyle.solid,
+                                        color: Colors.grey)),
+                                contentPadding:
+                                new EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+                              ),
+                            ),
                             TextFormField(
                               controller: loginIDController,
                               style: TextStyle(
@@ -225,7 +299,11 @@ class _LoginPageState extends State<LoginPage> {
                                 child: TextButton(
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      authenticateUser(context);
+                                      setState(() {
+                                        showLoader = true;
+                                        registerUser(context);
+                                      });
+
                                     }
                                   },
                                   style: TextButton.styleFrom(
@@ -233,13 +311,13 @@ class _LoginPageState extends State<LoginPage> {
                                     elevation: 10,
                                   ),
                                   child: Text(
-                                    'Login',
+                                    'Register',
                                     style: TextStyle(
                                         fontSize: 16.0, color: Colors.white),
                                     textAlign: TextAlign.center,
                                   ),
                                 )),
-                            Text("By Logging in You accept our Terms & Conditions", style: TextStyle(
+                            Text("By Registering in You accept our Terms & Conditions", style: TextStyle(
                                 fontSize: 12.0, color: Colors.grey, fontWeight: FontWeight.w300),
                               textAlign: TextAlign.center,),
                             InkWell(
@@ -275,3 +353,4 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ));  }
 }
+

@@ -1,24 +1,32 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatelessWidget {
 
-  navigatorToHome( BuildContext context)
-  {
+  navigateToHome(BuildContext context){
+
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+
     Future.delayed(
-      Duration(seconds: 3),
-        (){
-           //Navigator.pushNamed(context, '/home');
-          Navigator.pushReplacementNamed(context, '/login');
+        Duration(seconds: 3),
+            (){
+          //Navigator.pushNamed(context, "/home");
+          if(uid.isNotEmpty){
+            Navigator.pushReplacementNamed(context, "/home");
+          }else {
+            Navigator.pushReplacementNamed(context, "/login");
+          }
         }
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
 
-    navigatorToHome(context);
+    navigateToHome(context);
 
     return Scaffold(
       body: Center(

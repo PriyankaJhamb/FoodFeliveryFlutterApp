@@ -35,7 +35,10 @@ class _HomePageState extends State<HomePage> {
          ),
        ),
        actions: [
-         IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart), tooltip: "Shopping Cart",)
+         IconButton(
+           onPressed: (
+
+               ){}, icon: Icon(Icons.logout), tooltip: "Sign Out",)
        ],
 
      ),
