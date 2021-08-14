@@ -10,11 +10,11 @@ class AppUser{
     return 'AppUser{uid: $uid, name: $name, email: $email}';
   }
 
-  toMap(){
+  Map<String, dynamic> toMap(){
     return {
-      uid: uid,
-      name: name,
-      email: email
+      "uid": uid,
+      "name": name,
+      "email": email
     };
   }
 }

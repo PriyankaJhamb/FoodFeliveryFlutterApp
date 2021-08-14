@@ -7,12 +7,14 @@ class SplashPage extends StatelessWidget {
 
   navigateToHome(BuildContext context){
 
-    String uid = FirebaseAuth.instance.currentUser!.uid;
+    // String uid = FirebaseAuth.instance.currentUser!.uid;
+    String uid = FirebaseAuth.instance.currentUser!=null ? FirebaseAuth.instance.currentUser!.uid : "";
+
 
     Future.delayed(
         Duration(seconds: 3),
             (){
-          //Navigator.pushNamed(context, "/home");
+          Navigator.pushNamed(context, "/home");
           if(uid.isNotEmpty){
             Navigator.pushReplacementNamed(context, "/home");
           }else {
@@ -36,7 +38,7 @@ class SplashPage extends StatelessWidget {
           children: [
             Image.asset("icon.png"),
             SizedBox(height: 8),
-            Text("Foodie", style: TextStyle(color:Colors.redAccent, fontSize: 24)),
+            Text("Loving Food", style: TextStyle(color:Colors.redAccent, fontSize: 24)),
             Divider(),
             SizedBox(height: 4),
             Text("We deliver Fresh", style: TextStyle(color: Colors.yellow, fontSize: 20),),

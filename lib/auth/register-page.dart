@@ -26,6 +26,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
       print("User ID is:"+userCredential.user!.uid.toString());
 
       if(userCredential.user!.uid.toString().isNotEmpty){
+       
 
         AppUser user = AppUser(uid:userCredential.user!.uid, name:nameController.text.trim(), email:loginIDController.text.trim());
         var dataToSave = user.toMap();
@@ -106,7 +107,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.asset("assets/food.png", fit: BoxFit.fill),
+                            Image.asset("assets/icon.png", fit: BoxFit.fill),
                             SizedBox(height: 4,),
                             Text(
                               "Register Yourself",
@@ -172,6 +173,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                 new EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
                               ),
                             ),
+                            SizedBox(height: 8),
                             TextFormField(
                               controller: loginIDController,
                               style: TextStyle(
@@ -182,16 +184,16 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                               enabled: true,
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Login ID is required. Please Enter.';
+                                  return 'Email ID is required. Please Enter.';
                                 } else if (value.trim().length == 0) {
-                                  return 'Login ID is required. Please Enter.';
+                                  return 'Email ID is required. Please Enter.';
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
                                 filled: true,
                                 alignLabelWithHint: true,
-                                labelText: "Login ID",
+                                labelText: "Email ID",
                                 labelStyle: TextStyle(color: Colors.green),
                                 fillColor: Colors.transparent,
                                 enabledBorder: OutlineInputBorder(
@@ -353,4 +355,3 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           ],
         ));  }
 }
-

@@ -14,8 +14,8 @@ class _LoginPageState extends State<LoginPage> {
   void authenticateUser(BuildContext context) async{
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: loginIDController.text,
-          password: passwordController.text
+          email: loginIDController.text.trim(),
+          password: passwordController.text.trim()
       );
 
       print("User ID is:"+userCredential.user!.uid.toString());
@@ -24,6 +24,16 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushReplacementNamed(context, "/home");
       }else{
         // Login Failed
+        setState(() {
+          //showLoader=false;
+          // Show a SnackBar | It will have a message (Login Failed)
+          // SnackBar() -> this is a widget which shows and goes off after some time
+          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          //   content: Text("Your Text"),
+          //   duration: Duration(seconds: 5),
+          // )
+          // );
+        });
       }
 
 
@@ -32,6 +42,11 @@ class _LoginPageState extends State<LoginPage> {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Login Failed"),
+          duration: Duration(seconds: 5),
+        )
+        );
       }
     }
   }
@@ -41,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
+  bool showLoader = false;
 
   void _toggle() {
     setState(() {
@@ -225,7 +241,11 @@ class _LoginPageState extends State<LoginPage> {
                                 child: TextButton(
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      authenticateUser(context);
+                                      setState(() {
+                                        showLoader=true;
+                                        authenticateUser(context);
+                                      });
+
                                     }
                                   },
                                   style: TextButton.styleFrom(
@@ -265,6 +285,19 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
+                            ),
+                            SizedBox(height: 4),
+                            InkWell(
+                              onTap: (){
+                                Navigator.pushNamed(context, "/register");
+                              },
+                              child: Text(
+                                'New User? Register Here',
+                                style: TextStyle(
+                                  fontSize: 18.0, color: Colors.green, fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             )
                           ],
                         ),
@@ -274,4 +307,18 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ],
         ));  }
+}
+
+class MyTextField extends StatefulWidget {
+  const MyTextField({Key? key}) : super(key: key);
+
+  @override
+  _MyTextFieldState createState() => _MyTextFieldState();
+}
+
+class _MyTextFieldState extends State<MyTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField();
+  }
 }

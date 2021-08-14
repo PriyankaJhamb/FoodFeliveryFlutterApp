@@ -4,6 +4,7 @@ import 'package:fooddelivery/auth/login-page.dart';
 import 'package:fooddelivery/auth/register-page.dart';
 import 'package:fooddelivery/home/home-page.dart';
 import 'package:fooddelivery/home/splash-page.dart';
+import 'package:fooddelivery/pages/restaurants-data-page.dart';
 
 // main function represents main thread
 // whatever we code in main, is executed by main thread
@@ -38,7 +39,8 @@ class MyApp extends StatelessWidget {
         "/": (context) => SplashPage(),
         "/home": (context)=>HomePage(),
         "/login": (context)=>LoginPage(),
-        "/register": (context)=>RegisterUserPage()
+        "/register": (context)=>RegisterUserPage(),
+        "/resdata": (context)=>RestaurantsDataPage()
       },
       initialRoute: "/",
     );
