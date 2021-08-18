@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/util/constants.dart';
 
 class SplashPage extends StatelessWidget {
 
@@ -14,7 +15,6 @@ class SplashPage extends StatelessWidget {
     Future.delayed(
         Duration(seconds: 3),
             (){
-          Navigator.pushNamed(context, "/home");
           if(uid.isNotEmpty){
             Navigator.pushReplacementNamed(context, "/home");
           }else {
@@ -22,6 +22,7 @@ class SplashPage extends StatelessWidget {
           }
         }
     );
+    // Navigator.pushReplacementNamed(context, "/home");
   }
 
 
@@ -36,9 +37,9 @@ class SplashPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset("icon.png"),
+            Image.asset(APP_ICON),
             SizedBox(height: 8),
-            Text("Loving Food", style: TextStyle(color:Colors.redAccent, fontSize: 24)),
+            Text(APP_NAME, style: TextStyle(color:Colors.redAccent, fontSize: 24)),
             Divider(),
             SizedBox(height: 4),
             Text("We deliver Fresh", style: TextStyle(color: Colors.yellow, fontSize: 20),),

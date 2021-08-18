@@ -4,6 +4,7 @@ import 'package:fooddelivery/auth/login-page.dart';
 import 'package:fooddelivery/auth/register-page.dart';
 import 'package:fooddelivery/home/home-page.dart';
 import 'package:fooddelivery/home/splash-page.dart';
+import 'package:fooddelivery/image-picker.dart';
 import 'package:fooddelivery/pages/restaurants-data-page.dart';
 
 // main function represents main thread
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
         "/home": (context)=>HomePage(),
         "/login": (context)=>LoginPage(),
         "/register": (context)=>RegisterUserPage(),
-        "/resdata": (context)=>RestaurantsDataPage()
+        "/resdata": (context)=>RestaurantsDataPage(),
+        // "/imagep": (context)=>ImagePickerPage()
       },
       initialRoute: "/",
     );

@@ -28,7 +28,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
       if(userCredential.user!.uid.toString().isNotEmpty){
        
 
-        AppUser user = AppUser(uid:userCredential.user!.uid, name:nameController.text.trim(), email:loginIDController.text.trim());
+        AppUser user = AppUser(uid:userCredential.user!.uid, name:nameController.text.trim(), email:loginIDController.text.trim(), isAdmin: false);
         var dataToSave = user.toMap();
 
         FirebaseFirestore.instance.collection("users").doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/home"));

@@ -84,73 +84,65 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
                         Text("Enter the details of Restaurant to add in the restaurant list", style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w500),),
                         SizedBox(height: 10,),
                         TextFormField(
-                          controller:controllerName,
-                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.green),
+                          controller:  controllerName,
+                          style: TextStyle(
+                              fontSize: 17.0, color: Colors.grey.shade900),
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           autofocus: false,
                           enabled: true,
-                          validator: (value){
-                            if(value!.isEmpty)
-                              {
-                                return "Restaurant Name is required. Please Enter.";
-                              }
-                            else if(value.trim().length==0)
-                              {
-                                return "Restaurant Name is required. Please Enter.";
-                              }
-                            // return null;
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Name of the Restaurant is required. Please Enter.';
+                            } else if (value.trim().length == 0) {
+                              return 'Name of the Restaurant is required. Please Enter.';
+                            }
+                            return null;
                           },
                           decoration: InputDecoration(
                             filled: true,
                             alignLabelWithHint: true,
-                            labelText: "Name of the Restaurant",
+                            labelText: "Login ID",
                             labelStyle: TextStyle(color: Colors.green),
                             fillColor: Colors.transparent,
-
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                style: BorderStyle.solid,
-                                width: 1
-                              )
-                            ),
-
-                            disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4),
+                                borderRadius: BorderRadius.circular(4.0),
                                 borderSide: BorderSide(
-                                    color: Colors.grey,
+                                    width: 1,
                                     style: BorderStyle.solid,
-                                    width: 1
-                                )
-                            ),
-
-                            errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4),
-                                borderSide: BorderSide(
-                                    color: Colors.red,
-                                    style: BorderStyle.solid,
-                                    width: 1
-                                )
-                            ),
-
+                                    color: Colors.grey)),
                             focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4),
+                                borderRadius: BorderRadius.circular(4.0),
                                 borderSide: BorderSide(
-                                    color: Colors.black87,
+                                    width: 1,
                                     style: BorderStyle.solid,
-                                    width: 1
-                                )
-                            ),
-                            contentPadding: EdgeInsets.all(0)
+                                    color: Colors.black)),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: BorderSide(
+                                    width: 1,
+                                    style: BorderStyle.solid,
+                                    color: Colors.red)),
+                            disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: BorderSide(
+                                    width: 1,
+                                    style: BorderStyle.solid,
+                                    color: Colors.grey)),
+                            border: UnderlineInputBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                                borderSide: BorderSide(
+                                    width: 1,
+                                    style: BorderStyle.solid,
+                                    color: Colors.grey)),
+                            contentPadding:
+                            new EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
                           ),
-                          
                         ),
-                        SizedBox(height: 4,),
+                        SizedBox(height: 8,),
                         TextFormField(
                           controller: controllerCategories,
-                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.green),
+                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.grey.shade900),
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           autofocus: false,
@@ -164,7 +156,7 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
                             {
                               return "Categories are required. Please Enter.";
                             }
-                            // return null;
+                            return null;
                           },
                           decoration: InputDecoration(
                               filled: true,
@@ -183,7 +175,7 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
                               ),
 
                               disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4),
+                                  borderRadius: BorderRadius.circular(4.0),
                                   borderSide: BorderSide(
                                       color: Colors.grey,
                                       style: BorderStyle.solid,
@@ -192,7 +184,7 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
                               ),
 
                               errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4),
+                                  borderRadius: BorderRadius.circular(4.0),
                                   borderSide: BorderSide(
                                       color: Colors.red,
                                       style: BorderStyle.solid,
@@ -201,20 +193,20 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
                               ),
 
                               focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4),
+                                  borderRadius: BorderRadius.circular(4.0),
                                   borderSide: BorderSide(
                                       color: Colors.black87,
                                       style: BorderStyle.solid,
                                       width: 1
                                   )
                               ),
-                              contentPadding: EdgeInsets.all(0)
+                              contentPadding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0,0.0)
                           ),
                         ),
-                        SizedBox(height: 4,),
+                        SizedBox(height: 8,),
                         TextFormField(
                           controller: controllerPricePerPerson,
-                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.green),
+                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.grey.shade900),
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           autofocus: false,
@@ -272,13 +264,13 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
                                       width: 1
                                   )
                               ),
-                              contentPadding: EdgeInsets.all(0)
+                              contentPadding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0,0.0)
                           ),
                         ),
-                        SizedBox(height: 4,),
+                        SizedBox(height: 8,),
                         TextFormField(
                           controller: controllerRatings,
-                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.green),
+                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.grey.shade900),
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           autofocus: false,
@@ -342,7 +334,7 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
                                       width: 1,
                                       style: BorderStyle.solid,
                                       color: Colors.grey)),
-                              contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
+                              contentPadding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0)
                           ),
                         ),
                         Container(

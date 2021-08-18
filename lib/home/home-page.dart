@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/image-picker.dart';
+import 'package:fooddelivery/pages/dishes-data-page.dart';
 import 'package:fooddelivery/pages/restaurants-data-page.dart';
 import 'package:fooddelivery/pages/restaurants.dart';
+import 'package:fooddelivery/util/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,33 +14,53 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
+  String? email;
   int index = 0;
 
 
   @override
   Widget build(BuildContext context) {
+    print("Hi: ${context.runtimeType}");
     List<Widget> widgets = [
       RestaurantsPage(),
-      Column(
-        children: [Center(child:ElevatedButton(onPressed: (){Navigator.pushNamed(context, "/resdata");}, child: Text("Press to input the details of Restaurant", textAlign: TextAlign.center,)))],
-      ),
-      Center(child: Text("PROFILE PAGE")),
+      Center(child: Text("Search Page"),),
+      ImagePickerPage(),
     ];
 
+    check<Widget>(){
+      User? user = FirebaseAuth.instance.currentUser;
+      email=user!.email;
+      if (email==ADMIN_EMAIL && index==0)
+      {
+        return IconButton(
+            onPressed: (){
+
+              Navigator.push(
+                  context, MaterialPageRoute(
+                  builder: (context)=>
+                      RestaurantsDataPage()
+              )
+              );
+            },
+            icon: Icon(Icons.add)
+        );
+      }
+      else
+        return Container();
+    }
     return Scaffold(
 
       appBar: AppBar(
-        title: Text("Loving Food"),
+        title: Text(APP_NAME),
         backgroundColor: Colors.yellow,
         actions: [
+          check(),
           IconButton(
             onPressed: (){
               FirebaseAuth.instance.signOut();
               Navigator.pushReplacementNamed(context, "/login");
             }, icon: Icon(Icons.logout),
             tooltip: "Log Out",
-
           )
         ],
       ),
