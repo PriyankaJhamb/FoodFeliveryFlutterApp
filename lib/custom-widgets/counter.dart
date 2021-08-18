@@ -74,7 +74,7 @@ class _CounterState extends State<Counter> {
                         fontWeight: FontWeight.bold,
                         color: Colors.black45),
                   ),
-                  style: TextButton.styleFrom(primary: Colors.white),
+                  style: TextButton.styleFrom(primary: Colors.green),
                 ),
                 TextButton(
                   onPressed: () {

@@ -23,6 +23,7 @@ class _DishesPageState extends State<DishesPage> {
     Stream<QuerySnapshot> stream = FirebaseFirestore.instance.collection(RESTAURANT_COLLECTION).doc(widget.restaurantID).collection(DISHES_COLLECTION).snapshots();
     return stream;
   }
+
   check<Widget>(){
     // FirebaseApp secondaryApp = Firebase.app('FoodDelivery');
     User? user = FirebaseAuth.instance.currentUser;
@@ -30,9 +31,7 @@ class _DishesPageState extends State<DishesPage> {
     // firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref(user!.uid);
     // print("hi");
     print(user!.uid);
-
     email=user.email;
-
     if (email==ADMIN_EMAIL)
     {
       return IconButton(
@@ -189,3 +188,18 @@ class _DishesPageState extends State<DishesPage> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
