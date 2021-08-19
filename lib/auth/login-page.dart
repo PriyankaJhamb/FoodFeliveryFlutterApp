@@ -96,8 +96,8 @@ class _LoginPageState extends State<LoginPage> {
                 margin: EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
                   child: Container(
-                      height: MediaQuery.of(context).size.height / 2,
-                      width: MediaQuery.of(context).size.width,
+                      // height: MediaQuery.of(context).size.height / 2,
+                      // width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.all(16.0),
                       child: Form(
                         key: _formKey,

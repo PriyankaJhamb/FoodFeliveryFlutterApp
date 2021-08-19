@@ -23,32 +23,63 @@ class _DishesPageState extends State<DishesPage> {
     Stream<QuerySnapshot> stream = FirebaseFirestore.instance.collection(RESTAURANT_COLLECTION).doc(widget.restaurantID).collection(DISHES_COLLECTION).snapshots();
     return stream;
   }
+  AppUser? appUser;
+  Future fetchUserDetails() async {
+    print("hello");
+    String uid = await FirebaseAuth.instance.currentUser!.uid.toString();
+    var document = await FirebaseFirestore.instance.collection(
+        USERS_COLLECTION).doc(uid).get();
+    // appUser =AppUser();
+    // print("Hello $document.get['uid'].toString()");
+    // appUser!.uid = document.get('uid').toString();
+    // appUser!.name = document.get('name').toString();
+    // appUser!.email = document.get('email').toString();
+    // appUser!.imageUrl = document.get('imageUrl').toString();
 
+    if (document.exists)
+    {
+
+      appUser =AppUser();
+      // print("Hello $document.get['uid'].toString()");
+      // appUser!.uid = document.get('uid').toString();
+      // appUser!.name = document.get('name').toString();
+      // appUser!.email = document.get('email').toString();
+      // appUser!.imageUrl = document.get('imageUrl').toString();
+      appUser!.isAdmin = document.get('isAdmin');
+    }
+    else{print("error");}
+    return appUser;
+
+
+  }
   check<Widget>(){
     // FirebaseApp secondaryApp = Firebase.app('FoodDelivery');
     User? user = FirebaseAuth.instance.currentUser;
     // firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instanceFor(app: secondaryApp);
     // firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref(user!.uid);
     // print("hi");
-    print(user!.uid);
-    email=user.email;
-    if (email==ADMIN_EMAIL)
-    {
-      return IconButton(
-          onPressed: (){
+    return FutureBuilder(
+        future: fetchUserDetails(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
+          if (appUser!.isAdmin==true)
+          {
+            return IconButton(
+                onPressed: (){
 
-            Navigator.push(
-                context, MaterialPageRoute(
-                builder: (context)=>
-                    DishesDataPage(restaurantID: widget.restaurantID,)
-            )
+                  Navigator.push(
+                      context, MaterialPageRoute(
+                      builder: (context)=>
+                          DishesDataPage(restaurantID: widget.restaurantID,)
+                  )
+                  );
+                },
+                icon: Icon(Icons.add)
             );
-          },
-          icon: Icon(Icons.add)
-      );
-    }
-    else
-      return Container();
+          }
+          else
+            return Container();
+        });
+
   }
 
   @override

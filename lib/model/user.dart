@@ -3,12 +3,13 @@ class AppUser{
   String? name;
   String? email;
   bool? isAdmin=false;
+  String? imageUrl;
 
   AppUser({this.email, this.name, this.uid,this.isAdmin});
 
   @override
   String toString() {
-    return 'AppUser{uid: $uid, name: $name, email: $email, "isAdmin": $isAdmin}';
+    return 'AppUser{uid: $uid, name: $name, email: $email, "isAdmin": $isAdmin, "imageUrl": $imageUrl}';
   }
 
   Map<String, dynamic> toMap(){
@@ -16,7 +17,8 @@ class AppUser{
       "uid": uid,
       "name": name,
       "email": email,
-      "isAdmin": isAdmin
+      "isAdmin": isAdmin,
+      "imageUrl": ""
     };
   }
 }
