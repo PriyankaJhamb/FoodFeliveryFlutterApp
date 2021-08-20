@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/home/home-page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -42,11 +43,7 @@ class _LoginPageState extends State<LoginPage> {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Login Failed"),
-          duration: Duration(seconds: 5),
-        )
-        );
+        Show_Snackbar(context: context,message: "Login Failed");
       }
     }
   }
@@ -77,8 +74,10 @@ class _LoginPageState extends State<LoginPage> {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: <Color>[
-                          Color(0xff4ef100),
-                          Color(0xff03af0f),
+                          Colors.white,
+                          Colors.white
+                          // Color(0xff4ef100),
+                          // Color(0xff03af0f),
                         ],
                         tileMode:
                         TileMode.clamp, // repeats the gradient over the canvas
@@ -93,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
             Align(
               alignment: Alignment.center,
               child: Card(
+                elevation: 5,
                 margin: EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
                   child: Container(

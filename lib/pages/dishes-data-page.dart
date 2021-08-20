@@ -11,12 +11,15 @@ import 'package:fooddelivery/util/constants.dart';
 import 'package:image_picker/image_picker.dart';
 class DishesDataPage extends StatefulWidget {
   String? restaurantID;
+
   DishesDataPage({Key? key, this.restaurantID}) : super(key: key);
   @override
   _DishesDataPageState createState() => _DishesDataPageState();
 }
 
 class _DishesDataPageState extends State<DishesDataPage> {
+  String dowurl="";
+  XFile? image;
    toMapDiscount()=>{
        "flatDiscount":controllerFLatDiscount.text,
        "percentageDiscount":controllerPercentageDiscount.text
@@ -24,29 +27,34 @@ class _DishesDataPageState extends State<DishesDataPage> {
 
 
   void RegisterDish(BuildContext context) async{
-    Dish dish=Dish(controllerIU.text, controllerName.text, toMapDiscount() , int.parse(controllerPrice.text), double.parse(controllerRatings.text));
+
+    Dish dish=Dish(dowurl.toString(), controllerName.text, toMapDiscount() , int.parse(controllerPrice.text), double.parse(controllerRatings.text));
     var dataToSave = dish.toMap();
     FirebaseFirestore.instance.collection(RESTAURANT_COLLECTION).doc(widget.restaurantID).collection(DISHES_COLLECTION).doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/home"));
   }
-  TextEditingController controllerIU=TextEditingController();
+
   TextEditingController controllerName=TextEditingController();
   TextEditingController controllerFLatDiscount=TextEditingController();
   TextEditingController controllerPercentageDiscount=TextEditingController();
   TextEditingController controllerPrice=TextEditingController();
   TextEditingController controllerRatings=TextEditingController();
    bool choosed=false;
+
+  selectedYN(){
+    if (choosed)
+    {
+      return "Selected";
+    }
+    else
+    {
+      return "Choose";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    selectedYN(){
-      if (choosed)
-      {
-        return "Selected";
-      }
-      else
-      {
-        return "Choose";
-      }
-    }
+
+
     String imageName = controllerName.text;
     String imagePath="";
     final ImagePicker _picker = ImagePicker();
@@ -54,43 +62,44 @@ class _DishesDataPageState extends State<DishesDataPage> {
       File file = File(filePath);
 
       try {
-        await FirebaseStorage.instance
+        var temp= await FirebaseStorage.instance
             .ref('dishes/'+imageName+'.png')
             .putFile(file);
+        dowurl = await temp.ref.getDownloadURL();
+        print(dowurl.toString());
         print("UPLOAD SUCCESS");
-        choosed=true;
       } on FirebaseException catch (e) {
         print("UPLOAD FAILED");
       }
     }
 
     Future<void> _askedToLead() async {
-     return showDialog<void>(
+      return showDialog<void>(
           context: context,
           builder: (BuildContext context) {
+            Future.delayed(Duration(seconds: 5), () {
+              Navigator.of(context).pop(true);
+            });
             return SimpleDialog(
               title: const Text('Select option'),
               children: <Widget>[
                 SimpleDialogOption(
-                  onPressed: () async {
-                    final XFile? image = await _picker.pickImage(
-                        source: ImageSource.camera);
-                    uploadFile(image!.path);
-                    choosed=true;
-                  },
-                  child: Text('Camera'),
+                    onPressed: () async {
+                      image = await _picker.pickImage(
+                          source: ImageSource.camera);
+                      choosed=true;
+                    },
+                    child: Text('Camera'),
                     padding: EdgeInsets.all(20)
                 ),
                 SimpleDialogOption(
-                  onPressed: () async {
-                    final XFile? image = await _picker.pickImage(
-                        source: ImageSource.gallery);
-                    uploadFile(image!.path);
-                    setState(() {
+                    onPressed: () async {
+                      image = await _picker.pickImage(
+                          source: ImageSource.gallery);
                       choosed=true;
-                    });
-                  },
-                  child: Text('Gallery'),
+
+                    },
+                    child: Text('Gallery'),
                     padding: EdgeInsets.all(20)
 
 
@@ -101,10 +110,12 @@ class _DishesDataPageState extends State<DishesDataPage> {
 
     }
 
+
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Loving Food"),
-        backgroundColor: Colors.yellow,
+        title: Text(APP_NAME),
+        backgroundColor: APP_COLOR,
         actions: [
           IconButton(
             onPressed: (){
@@ -127,8 +138,8 @@ class _DishesDataPageState extends State<DishesDataPage> {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: <Color>[
-                          Color(0xff4ef100),
-                          Color(0xff03af0f),
+                          // Color(0xff4ef100),
+                          // Color(0xff03af0f),
                         ],
                         tileMode:
                         TileMode.clamp, // repeats the gradient over the canvas
@@ -145,6 +156,7 @@ class _DishesDataPageState extends State<DishesDataPage> {
           Align(
             alignment: Alignment.center,
             child: Card(
+                elevation: 5,
                 margin: EdgeInsets.all(16),
                 child: SingleChildScrollView(
                   child: Container(
@@ -227,7 +239,7 @@ class _DishesDataPageState extends State<DishesDataPage> {
                           TextFormField(
                             controller: controllerFLatDiscount,
                             style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.grey.shade900),
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             textCapitalization: TextCapitalization.words,
                             autofocus: false,
                             enabled: true,
@@ -291,8 +303,7 @@ class _DishesDataPageState extends State<DishesDataPage> {
                           TextFormField(
                             controller: controllerPercentageDiscount,
                             style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.grey.shade900),
-                            keyboardType: TextInputType.text,
-                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.number,
                             autofocus: false,
                             enabled: true,
                             validator: (value){
@@ -355,8 +366,8 @@ class _DishesDataPageState extends State<DishesDataPage> {
                           TextFormField(
                             controller: controllerPrice,
                             style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.grey.shade900),
-                            keyboardType: TextInputType.text,
-                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.number,
+                            //textCapitalization: TextCapitalization.words,
                             autofocus: false,
                             enabled: true,
                             validator: (value){
@@ -419,8 +430,8 @@ class _DishesDataPageState extends State<DishesDataPage> {
                           TextFormField(
                             controller: controllerRatings,
                             style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal, color: Colors.grey.shade900),
-                            keyboardType: TextInputType.text,
-                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.number,
+                            // textCapitalization: TextCapitalization.words,
                             autofocus: false,
                             enabled: true,
                             validator: (value){
@@ -529,6 +540,11 @@ class _DishesDataPageState extends State<DishesDataPage> {
                             // margin: EdgeInsets.only(top: 10, bottom: 4),
                               child:TextButton(
                                 onPressed: (){
+                                  setState(()  {
+                                    imageName = controllerName.text;
+                                    uploadFile(image!.path);
+
+                                  });
                                   setState(() {
                                     RegisterDish(context);
                                   });

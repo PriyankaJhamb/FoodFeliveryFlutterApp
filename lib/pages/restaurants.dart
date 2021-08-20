@@ -21,7 +21,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<dynamic>(
         stream: fetchRestaurants(),
         builder: (BuildContext context,AsyncSnapshot snapshot){
           if(snapshot.hasError){

@@ -39,10 +39,10 @@ class SplashPage extends StatelessWidget {
           children: [
             Image.asset(APP_ICON),
             SizedBox(height: 8),
-            Text(APP_NAME, style: TextStyle(color:Colors.redAccent, fontSize: 24)),
+            Text(APP_NAME, style: TextStyle(color:APP_COLOR, fontSize: 24)),
             Divider(),
             SizedBox(height: 4),
-            Text("We deliver Fresh", style: TextStyle(color: Colors.yellow, fontSize: 20),),
+            Text("We deliver Fresh", style: TextStyle(color: Colors.redAccent, fontSize: 20),),
 
 
           ],

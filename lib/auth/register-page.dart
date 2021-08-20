@@ -80,8 +80,10 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: <Color>[
-                          Color(0xff4ef100),
-                          Color(0xff03af0f),
+                          // Color(0xff4ef100),
+                          // Color(0xff03af0f),
+                          Colors.white,
+                          Colors.white
                         ],
                         tileMode:
                         TileMode.clamp, // repeats the gradient over the canvas
@@ -96,6 +98,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             Align(
               alignment: Alignment.center,
               child: Card(
+                elevation: 5,
                 margin: EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
                   child: Container(
