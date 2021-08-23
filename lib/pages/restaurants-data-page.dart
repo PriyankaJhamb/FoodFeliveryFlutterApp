@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/home/home-page.dart';
 import 'package:fooddelivery/model/restaurant.dart';
 import 'package:fooddelivery/util/constants.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,12 +26,14 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
   TextEditingController controllerRatings=TextEditingController();
 
 
-  void RegisterRestaurant(BuildContext context) async{
+  void RegisterRestaurant(BuildContext context,url) async{
 
-    Restaurant restaurant=Restaurant(imageUrl.toString(), controllerName.text, controllerCategories.text, int.parse(controllerPricePerPerson.text), double.parse(controllerRatings.text));
+    Restaurant restaurant=Restaurant(url, controllerName.text, controllerCategories.text, int.parse(controllerPricePerPerson.text), double.parse(controllerRatings.text));
     var dataToSave = restaurant.toMap();
+    Show_Snackbar(context: context, message: "Saving");
 
-    FirebaseFirestore.instance.collection("restaurants").doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/home"));
+    FirebaseFirestore.instance.collection("restaurants").doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/resdata"));
+    Show_Snackbar(context: context, message: "Saved");
   }
   selectedYN(){
     if (choosed)
@@ -51,19 +54,22 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
     String imageName = controllerName.text;
     String imagePath="";
     final ImagePicker _picker = ImagePicker();
-    Future<void> uploadFile(String filePath) async {
+    uploadFile(String filePath) async {
       File file = File(filePath);
 
       try {
+        Show_Snackbar(message: "Uploading", context: context);
         var dowurl = ( await FirebaseStorage.instance
             .ref('restaurants/'+imageName+'.png')
             .putFile(file)).ref.getDownloadURL();
         print("UPLOAD SUCCESS");
+        Show_Snackbar(message: "Uploaded", context: context);
         imageUrl=dowurl.toString();
         print(dowurl);
         print("imageUrl");
         print(imageUrl);
         choosed=true;
+        return dowurl;
       } on FirebaseException catch (e) {
         print("UPLOAD FAILED");
       }
@@ -112,8 +118,8 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(APP_NAME),
-        backgroundColor: APP_COLOR,
+        title: Text(Util.APP_NAME),
+        backgroundColor: Util.APP_COLOR,
         actions: [
           IconButton(
             onPressed: (){
@@ -468,11 +474,11 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
                             // margin: EdgeInsets.only(top: 10, bottom: 4),
                               child:TextButton(
                                 onPressed: (){
-                                  setState(() {
+                                  setState(() async {
                                     imageName = controllerName.text;
                                     print("imageName:$imageName");
-                                    uploadFile(image!.path);
-                                    RegisterRestaurant(context) ;
+                                    var url = await uploadFile(image!.path);
+                                    RegisterRestaurant(context,url) ;
 
                                   });
                                 },

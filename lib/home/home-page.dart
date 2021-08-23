@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     print("hello");
     String uid = await FirebaseAuth.instance.currentUser!.uid.toString();
     var document = await FirebaseFirestore.instance.collection(
-        USERS_COLLECTION).doc(uid).get();
+        Util.USERS_COLLECTION).doc(uid).get();
     // appUser =AppUser();
     // print("Hello $document.get['uid'].toString()");
     // appUser!.uid = document.get('uid').toString();
@@ -122,8 +122,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
 
       appBar: AppBar(
-        title: Text(APP_NAME),
-        backgroundColor: APP_COLOR,
+        title: Text(Util.APP_NAME),
+        backgroundColor: Util.APP_COLOR,
         actions: [
           check(),
           IconButton(
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
 
         currentIndex: index,
         selectedFontSize: 16,
-        selectedItemColor: APP_COLOR,
+        selectedItemColor: Util.APP_COLOR,
         onTap: (idx){ // idx will have value of the index of BottomNavBarItem
           setState(() {
             index = idx;

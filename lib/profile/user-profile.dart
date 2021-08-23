@@ -104,7 +104,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     print("hello");
     String uid = await FirebaseAuth.instance.currentUser!.uid.toString();
     var document = await FirebaseFirestore.instance
-        .collection(USERS_COLLECTION)
+        .collection(Util.USERS_COLLECTION)
         .doc(uid)
         .get();
     // appUser =AppUser();

@@ -37,9 +37,9 @@ class SplashPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(APP_ICON),
+            Image.asset(Util.APP_ICON),
             SizedBox(height: 8),
-            Text(APP_NAME, style: TextStyle(color:APP_COLOR, fontSize: 24)),
+            Text(Util.APP_NAME, style: TextStyle(color:Util.APP_COLOR, fontSize: 24)),
             Divider(),
             SizedBox(height: 4),
             Text("We deliver Fresh", style: TextStyle(color: Colors.redAccent, fontSize: 20),),

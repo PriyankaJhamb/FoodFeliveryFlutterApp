@@ -25,9 +25,9 @@ class _DishesPageState extends State<DishesPage> {
     //Stream is a Collection i.e. a List of QuerySnapshot
     //QuerySnapshot is our Document :)
     Stream<QuerySnapshot> stream = FirebaseFirestore.instance
-        .collection(RESTAURANT_COLLECTION)
+        .collection(Util.RESTAURANT_COLLECTION)
         .doc(widget.restaurantID)
-        .collection(DISHES_COLLECTION)
+        .collection(Util.DISHES_COLLECTION)
         .snapshots();
     return stream;
   }
@@ -36,7 +36,7 @@ class _DishesPageState extends State<DishesPage> {
     print("hello dishes");
     String uid = await FirebaseAuth.instance.currentUser!.uid.toString();
     var document = await FirebaseFirestore.instance
-        .collection(USERS_COLLECTION)
+        .collection(Util.USERS_COLLECTION)
         .doc(uid)
         .get();
     print("appUser");
@@ -94,8 +94,8 @@ class _DishesPageState extends State<DishesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(APP_NAME),
-        backgroundColor: APP_COLOR,
+        title: Text(Util.APP_NAME),
+        backgroundColor: Util.APP_COLOR,
         actions: [
           check(),
           IconButton(

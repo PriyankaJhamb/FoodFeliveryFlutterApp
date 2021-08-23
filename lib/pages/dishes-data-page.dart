@@ -26,11 +26,11 @@ class _DishesDataPageState extends State<DishesDataPage> {
    };
 
 
-  void RegisterDish(BuildContext context) async{
+  void RegisterDish(BuildContext context, url) async{
 
-    Dish dish=Dish(dowurl.toString(), controllerName.text, toMapDiscount() , int.parse(controllerPrice.text), double.parse(controllerRatings.text));
+    Dish dish=Dish(url, controllerName.text, toMapDiscount() , int.parse(controllerPrice.text), double.parse(controllerRatings.text));
     var dataToSave = dish.toMap();
-    FirebaseFirestore.instance.collection(RESTAURANT_COLLECTION).doc(widget.restaurantID).collection(DISHES_COLLECTION).doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/home"));
+    FirebaseFirestore.instance.collection(Util.RESTAURANT_COLLECTION).doc(widget.restaurantID).collection(Util.DISHES_COLLECTION).doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/home"));
   }
 
   TextEditingController controllerName=TextEditingController();
@@ -114,8 +114,8 @@ class _DishesDataPageState extends State<DishesDataPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(APP_NAME),
-        backgroundColor: APP_COLOR,
+        title: Text(Util.APP_NAME),
+        backgroundColor: Util.APP_COLOR,
         actions: [
           IconButton(
             onPressed: (){
@@ -540,13 +540,12 @@ class _DishesDataPageState extends State<DishesDataPage> {
                             // margin: EdgeInsets.only(top: 10, bottom: 4),
                               child:TextButton(
                                 onPressed: (){
-                                  setState(()  {
+                                  setState(() async {
                                     imageName = controllerName.text;
-                                    uploadFile(image!.path);
+                                    print("imageName:$imageName");
+                                    var url = await uploadFile(image!.path);
+                                    RegisterDish(context,url) ;
 
-                                  });
-                                  setState(() {
-                                    RegisterDish(context);
                                   });
                                 },
                                 style: TextButton.styleFrom(
