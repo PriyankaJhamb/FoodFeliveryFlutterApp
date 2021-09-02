@@ -5,10 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fooddelivery/home/home-page.dart';
+import 'package:fooddelivery/custom-widgets/ShowSnackBar.dart';
 import 'package:fooddelivery/model/restaurant.dart';
 import 'package:fooddelivery/util/constants.dart';
 import 'package:image_picker/image_picker.dart';
+
+
 class RestaurantsDataPage extends StatefulWidget {
   const RestaurantsDataPage({Key? key}) : super(key: key);
 
@@ -35,6 +37,8 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
     FirebaseFirestore.instance.collection("restaurants").doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/resdata"));
     Show_Snackbar(context: context, message: "Saved");
   }
+
+
   selectedYN(){
     if (choosed)
     {
@@ -45,7 +49,6 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
       return "Choose";
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -513,3 +516,4 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
     );
   }
 }
+

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:gw2021adf1/model/user.dart' as myuser;
 import 'package:fooddelivery/model/user.dart';
+import 'package:fooddelivery/util/constants.dart';
 
 class RegisterUserPage extends StatefulWidget {
   const RegisterUserPage({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
 
         AppUser user = AppUser(uid:userCredential.user!.uid, name:nameController.text.trim(), email:loginIDController.text.trim(), isAdmin: false);
         var dataToSave = user.toMap();
-
+        print(dataToSave);
         FirebaseFirestore.instance.collection("users").doc(user.uid).set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/home"));
 
         //Navigator.pushReplacementNamed(context, "/home");
@@ -69,6 +70,11 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (Util.appUser==null)
+    {
+      Util.fetchUserDetails();
+    }
     return showLoader ? Center(child: CircularProgressIndicator(),) : Scaffold(
         body: Stack(
           children: [

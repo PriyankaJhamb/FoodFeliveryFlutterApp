@@ -10,8 +10,9 @@ import 'package:fooddelivery/util/constants.dart';
 
 class DishesPage extends StatefulWidget {
   String? restaurantID;
+  String? restaurantName;
 
-  DishesPage({Key? key, this.restaurantID}) : super(key: key);
+  DishesPage({Key? key, this.restaurantID, this.restaurantName}) : super(key: key);
 
   @override
   _DishesPageState createState() => _DishesPageState();
@@ -20,6 +21,26 @@ class DishesPage extends StatefulWidget {
 class _DishesPageState extends State<DishesPage> {
   String? email;
   AppUser? appUser;
+
+  discount(int percentageDiscount, int flatDiscount){
+    if (percentageDiscount==0 && flatDiscount==0)
+      {
+        return " No Discount";
+      }
+    else if( percentageDiscount!=0 && flatDiscount!=0)
+    {
+      return " ${percentageDiscount}% OFF \n Discount UP TO ₹${flatDiscount} ";
+    }
+    else if( percentageDiscount!= 0)
+      {
+        return " ${percentageDiscount}% OFF ";
+      }
+    else if( flatDiscount!=0 )
+      {
+        return " Discount UP TO ₹${flatDiscount} ";
+      }
+
+  }
 
   fetchRestaurants() {
     //Stream is a Collection i.e. a List of QuerySnapshot
@@ -80,6 +101,7 @@ class _DishesPageState extends State<DishesPage> {
                         MaterialPageRoute(
                             builder: (context) => DishesDataPage(
                               restaurantID: widget.restaurantID,
+                              restaurantName: widget.restaurantName,
                             )));
                   },
                   icon: Icon(Icons.add));
@@ -98,6 +120,12 @@ class _DishesPageState extends State<DishesPage> {
         backgroundColor: Util.APP_COLOR,
         actions: [
           check(),
+          IconButton(
+            onPressed: (){
+              Navigator.pushNamed(context, "/cart");
+            }, icon: Icon(Icons.shopping_cart),
+            tooltip: "Shopping Cart",
+          ),
           IconButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
@@ -144,91 +172,115 @@ class _DishesPageState extends State<DishesPage> {
                     .map<Widget>((DocumentSnapshot document) {
               Map<String, dynamic> map =
                   document.data()! as Map<String, dynamic>;
+              map['docId'] = document.id.toString();
               return InkWell(
                 onTap: () {
                   Navigator.pushNamed(context, "");
                 },
-                child: Container(
-                  padding: EdgeInsets.only(
-                    bottom: 9,
+                child: Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
                   ),
-                  margin: EdgeInsets.all(9),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      border: Border.all(color: Colors.grey)),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 250,
-                        width: 500,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                topRight: Radius.circular(8)),
-                            color: Colors.black12,
-                            image: DecorationImage(
-                                image: NetworkImage(map["imageUrl"]),
-                                fit: BoxFit.fill)),
-                      ),
-
-                      Container(
-                        margin: EdgeInsets.all(4),
-                        child: Column(children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(" ${map["name"]}",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.justify),
-                                Container(
-                                  height: 20,
-                                  width: 45,
-                                  margin: EdgeInsets.only(
-                                      right: 4, top: 2, bottom: 0),
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      "${map["ratings"].toString()}⭐",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    style: TextButton.styleFrom(
-                                      backgroundColor: Colors.green,
-                                      padding: EdgeInsets.all(0.0),
-                                    ),
-                                  ),
-                                )
-                              ]),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                " ${map["discount"]}",
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.grey),
-                              ),
-                              Text(
-                                "\u20b9 ${map["price"].toString()} for one ",
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.grey),
-                              )
-                            ],
+                  margin: EdgeInsets.all(10),
+                  child: SingleChildScrollView(
+                    child:
+                    // Container(
+                    //   padding: EdgeInsets.only(
+                    //     bottom: 9,
+                    //   ),
+                    //   margin: EdgeInsets.all(9),
+                    //   decoration: BoxDecoration(
+                    //       shape: BoxShape.rectangle,
+                    //       borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    //       border: Border.all(color: Colors.white)),
+                    //   child:
+                    Column(
+                        children: [
+                          Container(
+                            height: 250,
+                            width: 500,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20)),
+                                color: Colors.black12,
+                                image: DecorationImage(
+                                    image: NetworkImage(map["imageUrl"]),
+                                    fit: BoxFit.fill)),
                           ),
-                          Counter()
-                        ]),
+
+                          Container(
+                            margin: EdgeInsets.all(4),
+                            child: Column(children: [
+                              Padding(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10)),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(" ${map["name"]}",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.justify),
+                                    Container(
+
+                                      margin: EdgeInsets.only(
+                                          right: 4, top: 2, bottom: 0),
+                                      padding: EdgeInsets.symmetric(horizontal: 4,vertical: 2),
+                                      decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius: BorderRadius.circular(5)
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "${map["ratings"].toString()}",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 13),
+                                          ),
+                                          Icon(
+                                              Icons.star,
+                                            color: Colors.white,
+                                            size: 15,
+                                          )
+                                        ]
+                                      ),
+                                    )
+                                  ]),
+                              Padding(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    discount(map["discount"]["percentageDiscount"],map["discount"]["flatDiscount"]),
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey),
+                                  ),
+                                  Text(
+                                    "\u20b9 ${map["price"].toString()} for one ",
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                              Padding(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10)),
+                              Counter(dish: map,),
+                              Padding(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10)),
+                            ]),
+                          ),
+                          // Image.network(map["imageUrl"], fit: BoxFit.fill,),
+                        ],
                       ),
-                      // Image.network(map["imageUrl"], fit: BoxFit.fill,),
-                    ],
-                  ),
+                    ),
+                  // ),
                 ),
               );
               // title: Text(map["name"]),

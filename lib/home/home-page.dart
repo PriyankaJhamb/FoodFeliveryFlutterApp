@@ -1,11 +1,9 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fooddelivery/image-picker.dart';
-import 'package:fooddelivery/model/user.dart';
-import 'package:fooddelivery/pages/dishes-data-page.dart';
+import 'package:fooddelivery/custom-widgets/ShowSnackBar.dart';
+import 'package:fooddelivery/pages/location-page.dart';
 import 'package:fooddelivery/pages/restaurants-data-page.dart';
 import 'package:fooddelivery/pages/restaurants.dart';
 import 'package:fooddelivery/profile/user-profile.dart';
@@ -20,81 +18,84 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String? email;
+  // String? email;
   int index = 0;
-  AppUser? appUser;
-  Future fetchUserDetails() async {
-    print("hello");
-    String uid = await FirebaseAuth.instance.currentUser!.uid.toString();
-    var document = await FirebaseFirestore.instance.collection(
-        Util.USERS_COLLECTION).doc(uid).get();
-    // appUser =AppUser();
-    // print("Hello $document.get['uid'].toString()");
-    // appUser!.uid = document.get('uid').toString();
-    // appUser!.name = document.get('name').toString();
-    // appUser!.email = document.get('email').toString();
-    // appUser!.imageUrl = document.get('imageUrl').toString();
-
-    if (document.exists)
-    {
-
-      appUser =AppUser();
-      // print("Hello $document.get['uid'].toString()");
-      // appUser!.uid = document.get('uid').toString();
-      // appUser!.name = document.get('name').toString();
-      // appUser!.email = document.get('email').toString();
-      // appUser!.imageUrl = document.get('imageUrl').toString();
-      appUser!.isAdmin = document.get('isAdmin');
-    }
-    else{
-      appUser =AppUser();
-      appUser!.isAdmin = false;
-      print("error");
-    }
+  // Future fetchUserDetails() async {
+  //   print("hello");
+  //   String uid = await FirebaseAuth.instance.currentUser!.uid.toString();
+  //   var document = await FirebaseFirestore.instance.collection(
+  //       Util.USERS_COLLECTION).doc(uid).get();
+    // if (document.exists)
+    // {
+    //
+    //   appUser =AppUser();
+    //   // print("Hello $document.get['uid'].toString()");
+    //   // appUser!.uid = document.get('uid').toString();
+    //   // appUser!.name = document.get('name').toString();
+    //   // appUser!.email = document.get('email').toString();
+    //   // appUser!.imageUrl = document.get('imageUrl').toString();
+    //   appUser!.isAdmin = document.get('isAdmin');
+    // }
+    // else{
+    //   appUser =AppUser();
+    //   appUser!.isAdmin = false;
+    //   print("error");
+    // }
+  //   return appUser;
+  // }
 
 
-    return appUser;
-
-
-  }
   check<Widget>(){
     // FirebaseApp secondaryApp = Firebase.app('FoodDelivery');
-    User? user = FirebaseAuth.instance.currentUser;
+    // User? user = FirebaseAuth.instance.currentUser;
     // firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instanceFor(app: secondaryApp);
     // firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref(user!.uid);
     // print("hi");
-    return FutureBuilder(
-        future: fetchUserDetails(),
-        builder: (BuildContext context, AsyncSnapshot snapshot){
-          if (snapshot.hasData) {
-            if (appUser!.isAdmin == true && index==0) {
+    // return FutureBuilder(
+    //     future: Util.fetchUserDetails(),
+    //     builder: (BuildContext context, AsyncSnapshot snapshot){
+    //       if (snapshot.hasData) {
+            if (Util.appUser!.isAdmin == true && index==0) {
               return IconButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => RestaurantsDataPage()));
                   },
-                  icon: Icon(Icons.add));
-            } else
-            {return Container();}}
-          else {
-            return Container();
-          }});
+                  icon: Icon(Icons.add)
+              );
+            }
+            else
+            {
+              return Container();
+            }
+          // else {
+          //   return Container();
+          // }});
   }
 
 
   @override
   Widget build(BuildContext context) {
+    if (Util.appUser==null)
+    {
+      Util.fetchUserDetails();
+    }
 
     print("Hi: ${context.runtimeType}");
     List<Widget> widgets = [
       RestaurantsPage(),
       // Center(child: Text("Search Page"),),
-      ImagePickerWidget(),
+      // ImagePickerWidget(),
+      LocationPage(),
       UserProfilePage()
     ];
 
+
+    //
+
+    // Util.fetchUserDetails();
 
     // check<Widget>(){
     //   User? user = FirebaseAuth.instance.currentUser;
@@ -126,6 +127,13 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Util.APP_COLOR,
         actions: [
           check(),
+          IconButton(
+            onPressed: (){
+              Navigator.pushNamed(context, "/cart");
+            }, icon: Icon(Icons.shopping_cart),
+            tooltip: "Shopping Cart",
+          ),
+
           IconButton(
             onPressed: (){
               FirebaseAuth.instance.signOut();
@@ -173,19 +181,6 @@ class _HomePageState extends State<HomePage> {
 
 
 
-
-
-class Show_Snackbar{
-  String message;
-  BuildContext context;
-  Show_Snackbar({required this.context,required this.message}){
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(this.message.toString()),
-      duration: Duration(seconds: 3),
-    )
-    );
-  }
-}
 
 class ImagePickerWidget extends StatefulWidget {
   const ImagePickerWidget({Key? key}) : super(key: key);

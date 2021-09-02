@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/custom-widgets/ShowSnackBar.dart';
 import 'package:fooddelivery/home/home-page.dart';
+import 'package:fooddelivery/util/constants.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -63,6 +65,12 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (Util.appUser==null)
+    {
+      Util.fetchUserDetails();
+    }
+
     return Scaffold(
         body: Stack(
           children: [

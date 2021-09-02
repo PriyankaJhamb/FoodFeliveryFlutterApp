@@ -1,10 +1,10 @@
 import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/util/constants.dart';
 
 class SplashPage extends StatelessWidget {
+
 
   navigateToHome(BuildContext context){
 
@@ -29,6 +29,9 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    if (Util.appUser==null) {
+      Util.fetchUserDetails();
+    }
     navigateToHome(context);
 
     return Scaffold(

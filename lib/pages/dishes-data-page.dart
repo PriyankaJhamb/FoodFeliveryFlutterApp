@@ -5,14 +5,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/custom-widgets/ShowSnackBar.dart';
 import 'package:fooddelivery/model/dish.dart';
-import 'package:fooddelivery/model/restaurant.dart';
 import 'package:fooddelivery/util/constants.dart';
 import 'package:image_picker/image_picker.dart';
+
+
 class DishesDataPage extends StatefulWidget {
   String? restaurantID;
+  String? restaurantName;
 
-  DishesDataPage({Key? key, this.restaurantID}) : super(key: key);
+
+  DishesDataPage({Key? key, this.restaurantID, this.restaurantName}) : super(key: key);
   @override
   _DishesDataPageState createState() => _DishesDataPageState();
 }
@@ -21,8 +25,8 @@ class _DishesDataPageState extends State<DishesDataPage> {
   String dowurl="";
   XFile? image;
    toMapDiscount()=>{
-       "flatDiscount":controllerFLatDiscount.text,
-       "percentageDiscount":controllerPercentageDiscount.text
+       "flatDiscount":int.parse(controllerFLatDiscount.text),
+       "percentageDiscount":int.parse(controllerPercentageDiscount.text)
    };
 
 
@@ -30,7 +34,11 @@ class _DishesDataPageState extends State<DishesDataPage> {
 
     Dish dish=Dish(url, controllerName.text, toMapDiscount() , int.parse(controllerPrice.text), double.parse(controllerRatings.text));
     var dataToSave = dish.toMap();
-    FirebaseFirestore.instance.collection(Util.RESTAURANT_COLLECTION).doc(widget.restaurantID).collection(Util.DISHES_COLLECTION).doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/home"));
+    print(dataToSave);
+    Show_Snackbar(context: context, message: "Saving");
+    FirebaseFirestore.instance.collection(Util.RESTAURANT_COLLECTION).doc(widget.restaurantID).collection(Util.DISHES_COLLECTION).doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/dishdata"));
+    Show_Snackbar(context: context, message: "Saved");
+    print("Done");
   }
 
   TextEditingController controllerName=TextEditingController();
@@ -58,14 +66,17 @@ class _DishesDataPageState extends State<DishesDataPage> {
     String imageName = controllerName.text;
     String imagePath="";
     final ImagePicker _picker = ImagePicker();
-    Future<void> uploadFile(String filePath) async {
+    uploadFile(String filePath) async {
       File file = File(filePath);
 
       try {
+        Show_Snackbar(message: "Uploading", context: context);
         var temp= await FirebaseStorage.instance
             .ref('dishes/'+imageName+'.png')
             .putFile(file);
+        Show_Snackbar(message: "Uploaded", context: context);
         dowurl = await temp.ref.getDownloadURL();
+        return dowurl;
         print(dowurl.toString());
         print("UPLOAD SUCCESS");
       } on FirebaseException catch (e) {
@@ -140,6 +151,8 @@ class _DishesDataPageState extends State<DishesDataPage> {
                         colors: <Color>[
                           // Color(0xff4ef100),
                           // Color(0xff03af0f),
+                          Colors.white,
+                          Colors.white
                         ],
                         tileMode:
                         TileMode.clamp, // repeats the gradient over the canvas
@@ -156,7 +169,7 @@ class _DishesDataPageState extends State<DishesDataPage> {
           Align(
             alignment: Alignment.center,
             child: Card(
-                elevation: 5,
+                elevation: 10,
                 margin: EdgeInsets.all(16),
                 child: SingleChildScrollView(
                   child: Container(
@@ -246,11 +259,11 @@ class _DishesDataPageState extends State<DishesDataPage> {
                             validator: (value){
                               if(value!.isEmpty)
                               {
-                                return "Flat Discount are required. Please Enter.";
+                                return "Flat Discount is required. Please Enter.";
                               }
                               else if(value.trim().length==0)
                               {
-                                return "Flat Discount are required. Please Enter.";
+                                return "Flat Discount is required. Please Enter.";
                               }
                               // return null;
                             },
@@ -309,11 +322,11 @@ class _DishesDataPageState extends State<DishesDataPage> {
                             validator: (value){
                               if(value!.isEmpty)
                               {
-                                return "Percentage Discount are required. Please Enter.";
+                                return "Percentage Discount is required. Please Enter.";
                               }
                               else if(value.trim().length==0)
                               {
-                                return "Percentage Discount are required. Please Enter.";
+                                return "Percentage Discount is required. Please Enter.";
                               }
                               // return null;
                             },
