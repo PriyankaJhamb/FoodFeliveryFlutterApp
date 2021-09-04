@@ -17,7 +17,10 @@ class Util{
   static String DISHES_COLLECTION="dishes";
   static String USERS_COLLECTION="users";
   static String CART_COLLECTION="cart";
-  static String ADDRESS_COLLECTION="addressell";
+  static String EXTRAS_COLLECTION="extras";
+  static String PAYMENTMETHODS_COLLECTION="methods";
+  static String ORDER_COLLECTION="order";
+  static String ADDRESS_COLLECTION="address";
   static String APP_ICON="icon.png";
   static String ADMIN_EMAIL="admin@example.com";
   static Color APP_COLOR=Colors.green;

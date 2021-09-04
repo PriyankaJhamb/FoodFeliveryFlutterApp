@@ -9,6 +9,7 @@ import 'package:fooddelivery/home/home-page.dart';
 import 'package:fooddelivery/home/splash-page.dart';
 import 'package:fooddelivery/pages/cart-page.dart';
 import 'package:fooddelivery/pages/dishes-data-page.dart';
+import 'package:fooddelivery/pages/payment-methods.dart';
 import 'package:fooddelivery/profile/google-maps-with-location.dart';
 import 'package:fooddelivery/pages/location-page.dart';
 import 'package:fooddelivery/pages/restaurants-data-page.dart';
@@ -117,6 +118,7 @@ class _MyAppState extends State<MyApp> {
         "/cart": (context)=>CartPage(),
         "/useraddresses": (context)=>UserAddressesPage(),
         "/googlemap": (context)=>GoogleMapsPage(),
+        "/paymentmethods": (context)=>PaymentMethodsPage(),
 
 
         // "/imagep": (context)=>ImagePickerPage()

@@ -173,16 +173,17 @@ class _DishesPageState extends State<DishesPage> {
               Map<String, dynamic> map =
                   document.data()! as Map<String, dynamic>;
               map['docId'] = document.id.toString();
-              return InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, "");
-                },
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)
-                  ),
-                  margin: EdgeInsets.all(10),
+              return Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                ),
+                margin: EdgeInsets.all(10),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () {
+                    Navigator.pushNamed(context, "");
+                  },
                   child: SingleChildScrollView(
                     child:
                     // Container(
@@ -213,20 +214,20 @@ class _DishesPageState extends State<DishesPage> {
 
                           Container(
                             margin: EdgeInsets.all(4),
+                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                             child: Column(children: [
-                              Padding(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10)),
                               Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(" ${map["name"]}",
+                                    // Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0)),
+                                    Text("${map["name"]}",
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold),
                                         textAlign: TextAlign.justify),
                                     Container(
 
-                                      margin: EdgeInsets.only(
-                                          right: 4, top: 2, bottom: 0),
+                                      // margin: EdgeInsets.only(right: 4, top: 2, bottom: 0),
                                       padding: EdgeInsets.symmetric(horizontal: 4,vertical: 2),
                                       decoration: BoxDecoration(
                                           color: Colors.green,
@@ -249,10 +250,24 @@ class _DishesPageState extends State<DishesPage> {
                                       ),
                                     )
                                   ]),
-                              Padding(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10)),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
+                                  Text(
+                                    "\u20b9 ${map["price"].toString()} for one ",
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey),
+                                  ),
+
+                                ],
+                              ),
+                              Row(
+                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+
                                   Text(
                                     discount(map["discount"]["percentageDiscount"],map["discount"]["flatDiscount"]),
                                     textAlign: TextAlign.justify,
@@ -261,26 +276,22 @@ class _DishesPageState extends State<DishesPage> {
                                         fontWeight: FontWeight.normal,
                                         color: Colors.grey),
                                   ),
-                                  Text(
-                                    "\u20b9 ${map["price"].toString()} for one ",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.grey),
+
+                                  Spacer(),
+                                  Container(
+                                    width: 100,
+                                    height: 35,
+                                    child: Counter(dish: map,),
                                   )
                                 ],
                               ),
-                              Padding(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10)),
-                              Counter(dish: map,),
-                              Padding(padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10)),
+
                             ]),
                           ),
                           // Image.network(map["imageUrl"], fit: BoxFit.fill,),
                         ],
                       ),
                     ),
-                  // ),
                 ),
               );
               // title: Text(map["name"]),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/model/dish-model-for-cart.dart';
 import 'package:fooddelivery/util/constants.dart';
@@ -101,47 +102,48 @@ class _CounterState extends State<Counter> {
 
 
         return Container(
-          margin: EdgeInsets.only(top: 10, bottom: 10,left: 80, right: 80),
-
+          // margin: EdgeInsets.only(top: 10, bottom: 10,left: 80, right: 80),
+          width: MediaQuery.of(context).size.width/4,
+          // margin: EdgeInsets.all(5),
+          padding: EdgeInsets.all(4),
+          alignment: Alignment.center,
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.green)),
-          child: initialvalue == 0
-              ? Container(
-                  child:
-                      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    TextButton(
-                      child: Text(
-                        "ADD",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.brown),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          initialvalue++;
-                          updateDishInCart();
-                        });
-                      },
-                    )
-                  ]),
-                )
-              : Row(
+              child: initialvalue == 0
+              ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(
-                      style: TextButton.styleFrom(primary: Colors.green),
-                      onPressed: () {
+                    InkWell(
+
+                    child: Text(
+                    "ADD",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.brown,
+                    )
+              ),
+              // style: TextButton.styleFrom(
+              //       textStyle: const TextStyle(fontSize: 20),
+              //         ),
+              onTap: () {
+                setState(() {
+                  initialvalue++;
+                  updateDishInCart();
+                });
+              },
+                    )
+                  ])
+              : Row(
+
+                  // mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      // style: TextButton.styleFrom(primary: Colors.green, fixedSize: Size.fromHeight(150),),
+                      onTap: () {
                         setState(() {
-                          // if (initialvalue > 0) {
-                          //   initialvalue--;
-                          //   updateDishInCart();
-                          // } else {
-                          //   deleteDishFromCart();
-                          //   initialvalue = 0;
-                          // }
                          if(initialvalue<0)
                           {
                             initialvalue = 0;
@@ -165,37 +167,35 @@ class _CounterState extends State<Counter> {
                       // )
                       child: Icon(
                         Icons.remove,
+                        size: 20,
                         color: Colors.green,
                       ),
                     ),
+                    Spacer(),
                     Text(
                       initialvalue.toString(),
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.brown),
                     ),
-                    TextButton(
-                      onPressed: () {
+                    Spacer(),
+                    InkWell(
+                      onTap: () {
                         setState(() {
-                          if (initialvalue < 1000) {
+                          // if (initialvalue < 1000) {
                             initialvalue++;
                             updateDishInCart();
-                          }
+                          // }
                         });
                       },
-                      // child: Text(
-                      //   "+",
-                      //   style: TextStyle(
-                      //       fontSize: 20,
-                      //       fontWeight: FontWeight.bold,
-                      //       color: Colors.black45),
-                      // ),
+                      // style: TextButton.styleFrom(fixedSize: Size.fromHeight(150)),
                       child: Icon(
                         Icons.add,
                         color: Colors.green,
+                        size: 20,
                       ),
-                      style: TextButton.styleFrom(primary: Colors.green),
+                      // style: TextButton.styleFrom(primary: Colors.green),
                     )
                   ],
                 ),

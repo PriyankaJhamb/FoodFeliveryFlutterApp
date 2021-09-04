@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fooddelivery/custom-widgets/ShowSnackBar.dart';
 import 'package:fooddelivery/model/address.dart';
 import 'package:fooddelivery/util/constants.dart';
@@ -20,9 +21,9 @@ class GoogleMapsPage extends StatefulWidget {
 class _GoogleMapsPageState extends State<GoogleMapsPage> {
   TextEditingController controllerLabel=TextEditingController();
   Completer<GoogleMapController> _controller = Completer();
-
+  final FormKey = GlobalKey<FormState>();
   CameraPosition place = CameraPosition(
-    target: LatLng(30.9024779, 75.8201934),
+    target: LatLng(28.9092326, 75.6074934),
     zoom: 16,
   );
 
@@ -31,9 +32,11 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   Address? address;
 
 
+
   bool? _serviceEnabled;
   PermissionStatus? _permissionGranted;
   LocationData? _locationData ;
+  GoogleMapController? MyGoogleMapController;
 
   String locationText = "Location Not Available";
 
@@ -57,22 +60,22 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     _locationData = await location.getLocation();
     var addresses = await geoCode.reverseGeocoding(latitude: _locationData!.latitude as double, longitude: _locationData!.longitude as double);
     setState(() {
-      address=addresses;
       locationText = "Latitude: ${_locationData!.latitude} Longitude: ${_locationData!.longitude}";
       place = CameraPosition(
-        target: LatLng(_locationData!.latitude!, _locationData!.longitude!),
+        target: LatLng(_locationData!.latitude??28.9092326, _locationData!.longitude??75.6074934),
         zoom: 20,
-
       );
+      MyGoogleMapController!.animateCamera(CameraUpdate.newCameraPosition(place));
+      address=addresses;
     });
   }
   void AddAddress(BuildContext context) async{
 
-    UserAddress Address= UserAddress(controllerLabel.text, GeoPoint(_locationData!.latitude!, _locationData!.longitude!), address.toString());
+    UserAddress Address= UserAddress(controllerLabel.text, GeoPoint(_locationData!.latitude!, _locationData!.longitude!), address!.streetAddress.toString()+", "+address!.region.toString()+", "+address!.countryName.toString()+", "+ address!.postal.toString() );
     var dataToSave = Address.toMap();
     Show_Snackbar(context: context, message: "Saving");
 
-    FirebaseFirestore.instance.collection(Util.ADDRESS_COLLECTION).doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/useraddress"));
+    FirebaseFirestore.instance.collection(Util.USERS_COLLECTION).doc(Util.appUser!.uid).collection(Util.ADDRESS_COLLECTION).doc().set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/useraddress"));
     Show_Snackbar(context: context, message: "Saved");
   }
   @override
@@ -102,121 +105,128 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
 
       ),
       body: ListView(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height/2,
-            child: GoogleMap(
-              initialCameraPosition:place,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-              markers: {
-              Marker(
-              markerId: MarkerId('atpl'),
-              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-              onTap: (){},
-              position: LatLng(_locationData!.latitude!=null?_locationData!.latitude!: 30.9024779 ,_locationData!.longitude!=null?_locationData!.longitude!: 75.8201934),
-              infoWindow: InfoWindow(
-              title: address!.streetAddress!=null?address!.streetAddress: "",
-              snippet: address!.countryName!=null?address!.countryName:"",
-              onTap: (){
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height/2,
+              child: GoogleMap(
+                  initialCameraPosition:place,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                    MyGoogleMapController = controller;
+                  },
+                  markers: {
+                    Marker(
+                        markerId: MarkerId('atpl'),
+                        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+                        onTap: (){},
+                        position: LatLng(_locationData!=null?_locationData!.latitude!: 28.9092326 ,_locationData!=null?_locationData!.longitude!: 75.6074934),
+                        infoWindow: InfoWindow(
+                          title: address!=null?address!.streetAddress: "",
+                          snippet: address!=null?address!.countryName:"",
+                          onTap: (){
 
-              },)
-            )}
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height/2.6 ,
-            child: Card(
-              margin: EdgeInsets.all((20)),
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller:  controllerLabel,
-
-                    style: TextStyle(
-                        fontSize: 17.0, color: Colors.grey.shade900),
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.words,
-                    autofocus: false,
-                    enabled: true,
-
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Label of the Address is required. Please Enter.';
-                      } else if (value.trim().length == 0) {
-                        return 'Label of the Address is required. Please Enter.';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      alignLabelWithHint: true,
-                      labelText: "Label of the Address",
-                      labelStyle: TextStyle(color: Colors.green),
-                      fillColor: Colors.transparent,
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          gapPadding:3.0,
-                          borderSide: BorderSide(
-                              width: 1,
-                              style: BorderStyle.solid,
-                              color: Colors.grey)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          borderSide: BorderSide(
-                              width: 1,
-                              style: BorderStyle.solid,
-                              color: Colors.black)),
-                      errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          borderSide: BorderSide(
-                              width: 1,
-                              style: BorderStyle.solid,
-                              color: Colors.red)),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          borderSide: BorderSide(
-                              width: 1,
-                              style: BorderStyle.solid,
-                              color: Colors.grey)),
-                      border: UnderlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          borderSide: BorderSide(
-                              width: 1,
-                              style: BorderStyle.solid,
-                              color: Colors.grey)),
-                      contentPadding:
-                      new EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
-                    ),
-                  ),
-                 Container(
-                   decoration: BoxDecoration(
-                     borderRadius: BorderRadius.circular(8),
-                   ),
-                   child: Column(
-                     children: [
-                       Text(" Address: ${address!.streetAddress}", textAlign: TextAlign.left,),
-                       Text(" City: ${address!.city}", textAlign: TextAlign.left),
-                       Text(" State: ${address!.region}", textAlign: TextAlign.left),
-                       Text(" Zip Code: ${ address!.postal}", textAlign: TextAlign.left),
-                       Text("  Geopoint: "),
-                       Text(" Lattitude: ${_locationData!.latitude} Longitude: ${_locationData!.longitude}", textAlign: TextAlign.left),
-
-                     ],
-                   ),
-                 ),
-                 ElevatedButton(
-                      onPressed: (){
-                        AddAddress(context);
-                      },
-                      child: Text("Add Address")
-                  )
-                ],
+                          },)
+                    )}
               ),
             ),
-          )
-        ]
+            Container(
+              height: MediaQuery.of(context).size.height/2.6 ,
+              child: Card(
+                margin: EdgeInsets.all((20)),
+                child: Column(
+                  children: [
+                    Divider(),
+                    Container(
+                      child:  Text(
+                        _locationData!=null && address!=null?
+                        "Lattitude: ${_locationData!.latitude} \nLongitude: ${_locationData!.longitude},  \n\n Address: ${address!.streetAddress}, ${address!.region}, ${address!.countryName}, ${address!.postal}"
+                            :""
+                            , textAlign: TextAlign.center),
+                      // decoration: BoxDecoration(
+                      //   shape: BoxShape.rectangle,
+                      //   borderRadius: BorderRadius.circular(10),
+                      //   border: Border.all(color: Colors.black54)
+                      // ),
+                      // child:  Text(" Lattitude: ${_locationData!.latitude??"28.9092326"} \nLongitude: ${_locationData!.longitude??"75.6074934"} \n\n Address: ${address!=null?address!.streetAddress.toString():""}, ${address!=null?address!.region.toString():""}, ${address!=null?address!.countryName.toString():""}, ${address!=null?address!.postal.toString():""}", textAlign: TextAlign.center),
+                      ),
+                    Divider(),
+                    SizedBox(height: 10,),
+                    Form(
+                      key: FormKey,
+                      child: TextFormField(
+                        controller:  controllerLabel,
+
+                        style: TextStyle(
+                            fontSize: 17.0, color: Colors.grey.shade900),
+                        keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.words,
+                        autofocus: false,
+                        enabled: true,
+
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Label of the Address is required. Please Enter.';
+                          } else if (value.trim().length == 0) {
+                            return 'Label of the Address is required. Please Enter.';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          alignLabelWithHint: true,
+                          labelText: "Label of the Address",
+                          labelStyle: TextStyle(color: Colors.green),
+                          fillColor: Colors.transparent,
+
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              gapPadding:3.0,
+                              borderSide: BorderSide(
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                  color: Colors.grey)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              borderSide: BorderSide(
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                  color: Colors.black)),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              borderSide: BorderSide(
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                  color: Colors.red)),
+                          disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              borderSide: BorderSide(
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                  color: Colors.grey)),
+                          border: UnderlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              borderSide: BorderSide(
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                  color: Colors.grey)),
+                          contentPadding:
+                          new EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5,),
+                    ElevatedButton(
+                        onPressed: (){
+                          if (FormKey.currentState!.validate()) {
+                          AddAddress(context);}
+                        },
+                        child: Text("Add Address")
+                    )
+                  ],
+                ),
+              ),
+            )
+          ]
       ),
     );
   }

@@ -24,6 +24,7 @@ class DishesDataPage extends StatefulWidget {
 class _DishesDataPageState extends State<DishesDataPage> {
   String dowurl="";
   XFile? image;
+  final dishesFormKey = GlobalKey<FormState>();
    toMapDiscount()=>{
        "flatDiscount":int.parse(controllerFLatDiscount.text),
        "percentageDiscount":int.parse(controllerPercentageDiscount.text)
@@ -177,12 +178,13 @@ class _DishesDataPageState extends State<DishesDataPage> {
                     // width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.all(16),
                     child: Form(
+                      key: dishesFormKey,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset("assets/icon.png", fit:BoxFit.fill),
                           SizedBox(height: 4,),
-                          Text("Enter the details of Dish to add in the Dishes list", style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w500),),
+                          Text("Add Dish in the { ${widget.restaurantName} } Dishes List", style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w500),),
                           SizedBox(height: 10,),
                           TextFormField(
                             controller:controllerName,
@@ -552,12 +554,15 @@ class _DishesDataPageState extends State<DishesDataPage> {
                             // width: MediaQuery.of(context).size.width,
                             // margin: EdgeInsets.only(top: 10, bottom: 4),
                               child:TextButton(
+
                                 onPressed: (){
+
                                   setState(() async {
+                                    if (dishesFormKey.currentState!.validate()) {
                                     imageName = controllerName.text;
                                     print("imageName:$imageName");
                                     var url = await uploadFile(image!.path);
-                                    RegisterDish(context,url) ;
+                                    RegisterDish(context,url) ;}
 
                                   });
                                 },

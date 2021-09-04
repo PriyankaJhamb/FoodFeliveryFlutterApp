@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/util/constants.dart';
+import 'package:geocode/geocode.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:fooddelivery/model/address.dart';
 
 class UserAddressesPage extends StatefulWidget {
   const UserAddressesPage({Key? key}) : super(key: key);
@@ -23,7 +25,6 @@ class _UserAddressesPageState extends State<UserAddressesPage> {
     return stream;
   }
 
- 
 
   @override
   Widget build(BuildContext context) {
@@ -94,19 +95,30 @@ class _UserAddressesPageState extends State<UserAddressesPage> {
                 Map<String, dynamic> map =
                     document.data()! as Map<String, dynamic>;
                 map['docId'] = document.id.toString();
-                return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, "");
-                    },
-                    child: ListTile(
-                      title: Text(map["label"]),
-                      subtitle: Text(map["geopoint"]),
-                    ));
+
+
+                return Container(
+                  margin: EdgeInsets.all(5),
+                  // padding: EdgeInsets.all(),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.all(16),
+                    onTap: (){},
+                    tileColor: Colors.green.shade50,
+                   shape: RoundedRectangleBorder(
+                       borderRadius: BorderRadius.circular(10),
+                     side: BorderSide(
+                         style: BorderStyle.solid,
+                         color: Colors.green,
+                         width: 0.5,
+                     ),
+                   ),
+                    title: Text(map["label"]),
+                    subtitle: Text(map["address"]),
+                  ),
+                );
                 // title: Text(map["name"]),
                 // subtitle: Text(map['categories']),
               }).toList());
-
-
             print("Center");
 
           }),

@@ -22,6 +22,7 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
   String imageUrl="";
   bool choosed=false;
   XFile? image;
+  final restaurantformKey = GlobalKey<FormState>();
   TextEditingController controllerName=TextEditingController();
   TextEditingController controllerCategories=TextEditingController();
   TextEditingController controllerPricePerPerson=TextEditingController();
@@ -173,6 +174,7 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
                     // width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.all(16),
                     child: Form(
+                      key: restaurantformKey,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -477,13 +479,18 @@ class _RestaurantsDataPageState extends State<RestaurantsDataPage> {
                             // margin: EdgeInsets.only(top: 10, bottom: 4),
                               child:TextButton(
                                 onPressed: (){
-                                  setState(() async {
-                                    imageName = controllerName.text;
-                                    print("imageName:$imageName");
-                                    var url = await uploadFile(image!.path);
-                                    RegisterRestaurant(context,url) ;
 
-                                  });
+                                            setState(() {
+                                              if (restaurantformKey.currentState!.validate()) {
+                                            imageName = controllerName.text;
+                                            print("imageName:$imageName");
+                                            var url = uploadFile(image!.path);
+                                            RegisterRestaurant(context,url) ;
+                                            }
+
+                                   }
+                                            );
+
                                 },
                                 style: TextButton.styleFrom(
                                     backgroundColor: Color(0xff4fa037),
