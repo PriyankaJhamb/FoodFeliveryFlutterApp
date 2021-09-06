@@ -33,6 +33,8 @@ class Util{
     Util.appUser = AppUser();
 
     Util.appUser!.uid = document.get('uid').toString();
+    print("Util.appUser!.uid = document.get('uid').toString();");
+
     Util.appUser!.name = document.get('name').toString();
     Util.appUser!.email = document.get('email').toString();
     Util.appUser!.imageUrl = document.get('imageUrl').toString();

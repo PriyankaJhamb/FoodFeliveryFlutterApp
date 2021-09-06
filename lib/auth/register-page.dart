@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:gw2021adf1/model/user.dart' as myuser;
 import 'package:fooddelivery/model/user.dart';
 import 'package:fooddelivery/util/constants.dart';
 
@@ -21,8 +20,12 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
 
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: loginIDController.text.trim(),
-          password: passwordController.text.trim()
-      );
+          password: passwordController.text.trim(),
+
+          );
+      print("userCredential");
+      print(userCredential);
+
 
       print("User ID is:"+userCredential.user!.uid.toString());
 
@@ -31,9 +34,18 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
 
         AppUser user = AppUser(uid:userCredential.user!.uid, name:nameController.text.trim(), email:loginIDController.text.trim(), isAdmin: false);
         var dataToSave = user.toMap();
-        print(dataToSave);
-        FirebaseFirestore.instance.collection("users").doc(user.uid).set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/home"));
+        print("dataToSave");
+        FirebaseFirestore.instance.collection(Util.USERS_COLLECTION).doc(user.uid).set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/"));
+        // Util.appUser!.uid=userCredential.user!.uid.toString();
 
+        if (Util.appUser==null)
+        {
+          print("Util.fetchUserDetails();");
+          Util.fetchUserDetails();
+          print("Util.fetchUserDetails();");
+        }
+
+        showLoader=false;
         //Navigator.pushReplacementNamed(context, "/home");
       }else{
         // Registration Failed
@@ -71,10 +83,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
   @override
   Widget build(BuildContext context) {
 
-    if (Util.appUser==null)
-    {
-      Util.fetchUserDetails();
-    }
+
     return showLoader ? Center(child: CircularProgressIndicator(),) : Scaffold(
         body: Stack(
           children: [

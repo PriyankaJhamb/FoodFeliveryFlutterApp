@@ -33,6 +33,8 @@ class _CounterState extends State<Counter> {
         imageUrl: widget.dish!['imageUrl']
     );
     print("ok till here");
+    print("Util.appUser!.uid");
+    print(Util.appUser!.uid);
     FirebaseFirestore.instance
         .collection(Util.USERS_COLLECTION)
         .doc(Util.appUser!.uid)
