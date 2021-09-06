@@ -28,12 +28,16 @@ class Util{
   static Map total={};
 
   static fetchUserDetails() async{
+    print("static fetchUserDetails() async");
     String uid = await FirebaseAuth.instance.currentUser!.uid.toString();
+    print("uid: $uid");
     DocumentSnapshot document = await FirebaseFirestore.instance.collection(Util.USERS_COLLECTION).doc(uid).get();
+    print("document: ${document.id}");
     Util.appUser = AppUser();
 
     Util.appUser!.uid = document.get('uid').toString();
-    print("Util.appUser!.uid = document.get('uid').toString();");
+    print("document.get('uid').toString() = ${document.get('uid').toString()};");
+    print("Util.appUser!.uid: ${Util.appUser!.uid}");
 
     Util.appUser!.name = document.get('name').toString();
     Util.appUser!.email = document.get('email').toString();

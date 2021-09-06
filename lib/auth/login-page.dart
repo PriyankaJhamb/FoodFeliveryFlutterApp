@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    print("Login Page : Util.appUser: ${Util.appUser}");
     if (Util.appUser==null)
     {
       Util.fetchUserDetails();

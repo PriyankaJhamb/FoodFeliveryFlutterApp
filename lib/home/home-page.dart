@@ -78,9 +78,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("Home Page : Util.appUser: ${Util.appUser}");
     if (Util.appUser==null)
     {
+      print("function Util.fetchUserDetails(); starts");
       Util.fetchUserDetails();
+      print("function Util.fetchUserDetails(); ends");
     }
 
     print("Hi: ${context.runtimeType}");

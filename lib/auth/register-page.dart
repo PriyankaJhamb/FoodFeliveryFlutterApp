@@ -38,7 +38,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
         FirebaseFirestore.instance.collection(Util.USERS_COLLECTION).doc(user.uid).set(dataToSave).then((value) => Navigator.pushReplacementNamed(context, "/"));
         // Util.appUser!.uid=userCredential.user!.uid.toString();
 
-        if (Util.appUser==null)
+        print("Register Page : Util.appUser: ${Util.appUser}");
+        if (Util.appUser!.uid==null)
         {
           print("Util.fetchUserDetails();");
           Util.fetchUserDetails();

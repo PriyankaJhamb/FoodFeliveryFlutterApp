@@ -76,6 +76,7 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("Cart Page : ${Util.appUser!.uid}: ${Util.appUser!.uid}");
     Util.total = {};
     total() {
       int total = 0;
@@ -133,25 +134,25 @@ class _CartPageState extends State<CartPage> {
             )
           });*/
 
-        // if(snapshot.data.docs.isEmpty){
-        //   return Center(
-        //     child: Column(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         // crossAxisAlignment: CrossAxisAlignment.center,
-        //         children: [
-        //         Text(" No Dishes in the Cart yet..."),
-        //           SizedBox(
-        //             height: 10,
-        //           ),
-        //           ElevatedButton(
-        //           onPressed: (){
-        //               Navigator.pushReplacementNamed(context, "/home");
-        //           },
-        //           child: Text("Add Dishes"))
-        //           ],),
-        //   );
-        // }
-        // else{
+        if(snapshot.data.docs.isEmpty){
+          return Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                Text(" No Dishes in the Cart yet..."),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                  onPressed: (){
+                      Navigator.pushReplacementNamed(context, "/home");
+                  },
+                  child: Text("Add Dishes"))
+                  ],),
+          );
+        }
+        else{
             return ListView(padding: EdgeInsets.all(12), children: [
               Column(
                   children: snapshot.data!.docs
@@ -250,8 +251,7 @@ class _CartPageState extends State<CartPage> {
                     )
                   : Container()
             ]);}
-          // }
-          ),
+          }),
       // bottomNavigationBar: BottomAppBar(
       //   shape: CircularNotchedRectangle(),
       //   // shape: AutomaticNotchedShape(),

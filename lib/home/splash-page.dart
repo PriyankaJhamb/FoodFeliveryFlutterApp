@@ -29,8 +29,10 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    print("Splash Page : Util.appUser: ${Util.appUser}");
     if (Util.appUser==null) {
       Util.fetchUserDetails();
+
     }
     navigateToHome(context);
 
