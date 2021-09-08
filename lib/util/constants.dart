@@ -26,10 +26,11 @@ class Util{
   static Color APP_COLOR=Colors.green;
   static AppUser? appUser;
   static Map total={};
+  static bool checkpath=false;
 
-  static fetchUserDetails() async{
+  static fetchUserDetails()async{
     print("static fetchUserDetails() async");
-    String uid = await FirebaseAuth.instance.currentUser!.uid.toString();
+    String uid = FirebaseAuth.instance.currentUser!.uid.toString();
     print("uid: $uid");
     DocumentSnapshot document = await FirebaseFirestore.instance.collection(Util.USERS_COLLECTION).doc(uid).get();
     print("document: ${document.id}");
@@ -43,5 +44,7 @@ class Util{
     Util.appUser!.email = document.get('email').toString();
     Util.appUser!.imageUrl = document.get('imageUrl').toString();
     Util.appUser!.isAdmin = document.get("isAdmin");
+
+    return appUser;
   }
 }

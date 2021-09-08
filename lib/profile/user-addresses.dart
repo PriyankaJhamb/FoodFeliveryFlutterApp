@@ -8,7 +8,7 @@ import 'package:location/location.dart';
 import 'package:fooddelivery/model/address.dart';
 
 class UserAddressesPage extends StatefulWidget {
-  const UserAddressesPage({Key? key}) : super(key: key);
+  UserAddressesPage({Key? key}) : super(key: key);
 
   @override
   _UserAddressesPageState createState() => _UserAddressesPageState();
@@ -102,7 +102,11 @@ class _UserAddressesPageState extends State<UserAddressesPage> {
                   // padding: EdgeInsets.all(),
                   child: ListTile(
                     contentPadding: EdgeInsets.all(16),
-                    onTap: (){},
+                    onTap: (){
+                      if (Util.checkpath) {
+                        Navigator.pop(context, map["label"]);
+                      }
+                    },
                     tileColor: Colors.green.shade50,
                    shape: RoundedRectangleBorder(
                        borderRadius: BorderRadius.circular(10),

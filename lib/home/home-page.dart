@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
     //     future: Util.fetchUserDetails(),
     //     builder: (BuildContext context, AsyncSnapshot snapshot){
     //       if (snapshot.hasData) {
+            print("if (Util.appUser!.isAdmin == true && index==0) {");
             if (Util.appUser!.isAdmin == true && index==0) {
               return IconButton(
                   onPressed: () {
@@ -83,6 +84,7 @@ class _HomePageState extends State<HomePage> {
     {
       print("function Util.fetchUserDetails(); starts");
       Util.fetchUserDetails();
+      print("Inside function  Home Page : Util.appUser: ${Util.appUser}");
       print("function Util.fetchUserDetails(); ends");
     }
 
@@ -124,7 +126,6 @@ class _HomePageState extends State<HomePage> {
 
 
     return Scaffold(
-
       appBar: AppBar(
         title: Text(Util.APP_NAME),
         backgroundColor: Util.APP_COLOR,
@@ -147,7 +148,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
 
-      body: widgets[index],
+      body:  Util.appUser!=null ?widgets[index]:Center(child: Text("Loading...........")),
 
       bottomNavigationBar: BottomNavigationBar(
         items: [

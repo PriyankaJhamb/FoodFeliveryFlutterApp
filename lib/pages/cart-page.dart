@@ -17,7 +17,9 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   String paymentMethod = "";
+  String labeladdress="";
   var temp = 0;
+
 
   fetchDishesInCart() {
     print("fetchDishesInCart");
@@ -249,7 +251,52 @@ class _CartPageState extends State<CartPage> {
                       title: Text("Total Price"),
                       trailing: Text(" ₹${total().toString()}"),
                     )
-                  : Container()
+                  : Container(),
+              Divider(),
+              Spacer(),
+              Container(
+                padding: EdgeInsets.all(8),
+                // height: 30,
+                // decoration: BoxDecoration(
+                //   borderRadius: BorderRadius.all(Radius.circular(2))
+                //
+                // ),
+                child: Row(
+                  children: [
+                    Text(" Address : "),
+                    Spacer(),
+                    InkWell(
+                        onTap: () async{
+                          Util.checkpath=true;
+                          labeladdress= await Navigator.pushNamed(context, "/useraddresses") as String;
+                          setState((){});
+                        },
+                        child: Text(labeladdress!=""?"${labeladdress} ": "Change")
+
+                    )
+                  ],
+                ),
+              ),
+              Divider(),
+              Container(
+                padding: EdgeInsets.all(8),
+                // height: ,
+                child: Row(
+                  children: [
+                    Text(" Payment Method : "),
+                    Spacer(),
+                    InkWell(
+                    onTap: () async{
+                          paymentMethod= await Navigator.pushNamed(context, "/paymentmethods") as String;
+                        setState((){});
+                      },
+                      child: Text(paymentMethod!=""?" ${paymentMethod} ": "Change")
+                    ),
+
+                  ],
+                  ),
+              ),
+              Divider(),
             ]);}
           }),
       // bottomNavigationBar: BottomAppBar(
@@ -333,6 +380,7 @@ class _CartPageState extends State<CartPage> {
           backgroundColor: Colors.green.shade50,
           onPressed: () async {
             if (total()!=0){
+            if(paymentMethod.isNotEmpty){
             int result = await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -346,7 +394,7 @@ class _CartPageState extends State<CartPage> {
               // print(dishes);
               clearCart();
               print("clear cart");
-              navigateToSuccess();
+              navigateToSuccess();}
             }}
             else
               {

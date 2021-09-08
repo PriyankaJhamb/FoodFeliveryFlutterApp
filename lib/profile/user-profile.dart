@@ -199,6 +199,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           subtitle: Text("Update Your Addresses for Delivery"),
           trailing: Icon(Icons.keyboard_arrow_right_sharp),
           onTap: () {
+            Util.checkpath=false;
             Navigator.pushNamed(context, "/useraddresses");
           },
         ),
