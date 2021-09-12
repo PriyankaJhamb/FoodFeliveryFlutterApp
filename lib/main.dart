@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fooddelivery/auth/login-page.dart';
 import 'package:fooddelivery/auth/register-page.dart';
+import 'package:fooddelivery/db/provider.dart';
 import 'package:fooddelivery/home/home-page.dart';
 import 'package:fooddelivery/home/splash-page.dart';
 import 'package:fooddelivery/pages/cart-page.dart';
@@ -15,6 +16,7 @@ import 'package:fooddelivery/profile/google-maps-with-location.dart';
 import 'package:fooddelivery/pages/location-page.dart';
 import 'package:fooddelivery/pages/restaurants-data-page.dart';
 import 'package:fooddelivery/profile/user-addresses.dart';
+import 'package:provider/provider.dart';
 
 // main function represents main thread
 // whatever we code in main, is executed by main thread
@@ -38,7 +40,12 @@ Future<void> main() async{
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => DataProvider(),)
+    ],
+    child: MyApp(), // For MyApp and all the widgets under the tree, we have DataProvider from where we can accrss the data
+  ));
 }
 
 class MyApp extends StatefulWidget {

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/util/constants.dart';
+import 'package:provider/provider.dart';
 
 class DataProvider extends ChangeNotifier{
   late FirebaseFirestore db;

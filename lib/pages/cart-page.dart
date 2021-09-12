@@ -18,7 +18,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   String paymentMethod = "";
   String labeladdress="";
-  var temp = 0;
+  var temp ;
   Timestamp myTimeStamp = Timestamp.fromDate( DateTime. now());
 
 
@@ -37,6 +37,7 @@ class _CartPageState extends State<CartPage> {
   var dishes = [];
 
   placeOrder() {
+    print(dishes);
     Order order = Order(
         dishes: dishes,
         total: temp,
@@ -81,6 +82,7 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
+    dishes = [];
     print("Cart Page : ${Util.appUser!.uid}: ${Util.appUser!.uid}");
     Util.total = {};
     total() {
@@ -158,6 +160,7 @@ class _CartPageState extends State<CartPage> {
           );
         }
         else{
+          dishes=[];
             return ListView(padding: EdgeInsets.all(12), children: [
               Column(
                   children: snapshot.data!.docs
@@ -329,7 +332,10 @@ class _CartPageState extends State<CartPage> {
       //   ),
       // ),
       bottomNavigationBar:  Container(
-        child: total() != 0?Column(
+        child:
+        // temp!= 0
+        //     ?
+        Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Divider(),
@@ -423,9 +429,11 @@ class _CartPageState extends State<CartPage> {
             ),
           ),
             ],
-          ): Column(
-          mainAxisSize: MainAxisSize.min,
-        ),
+          )
+        //     :
+        // Column(
+        //   mainAxisSize: MainAxisSize.min,
+        // ),
         ),
 
       // Container(
