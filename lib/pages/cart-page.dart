@@ -345,41 +345,61 @@ class _CartPageState extends State<CartPage> {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                Column(
-                  children: [
-                    Text(" Delivery Address "),
-                    OutlinedButton(
-                      // style: ,
-                        onPressed: () async{
-                          Util.checkpath=true;
-                          labeladdress= await Navigator.pushNamed(context, "/useraddresses") as String;
-                          setState((){});
-                        },
-                        child: Text(labeladdress!=""?"${labeladdress} ": "Select")
+            Container(
+              // color: Colors.green.shade50,
+              // margin: EdgeInsets.all(8),
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: Colors.green.shade50,
+                borderRadius: BorderRadius.circular(18)
+              ),
+              child: Row(
 
-                    )
-                  ],
-                ),
-                Spacer(),
-                Column(
-                  children: [
-                    Text(" Payment Method "),
-                    OutlinedButton(
-                        onPressed: () async{
-                          paymentMethod= await Navigator.pushNamed(context, "/paymentmethods") as String;
-                          setState((){});
-                        },
-                        style: ElevatedButton.styleFrom(
-                          // padding: EdgeInsets.all(0)
+                children: [
+                  Column(
+                    children: [
+                      Text(" Delivery Address ", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                      OutlinedButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
 
-                        ),
-                        child: Text(paymentMethod!=""?" ${paymentMethod} ": "Select")
-                    ),
-                  ],
-                )
-              ],
+                                  borderRadius: BorderRadius.circular(50.0),
+                                  // side: BorderSide(color: Colors.red)
+                              ),),),
+                          onPressed: () async{
+                            Util.checkpath=true;
+                            labeladdress= await Navigator.pushNamed(context, "/useraddresses") as String;
+                            setState((){});
+                          },
+                          child: Text(labeladdress!=""?"${labeladdress} ": "Select", style: TextStyle(color: Colors.green.shade300))
+
+                      )
+                    ],
+                  ),
+                  Spacer(),
+                  Column(
+                    children: [
+                      Text(" Payment Method ", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                      OutlinedButton(
+                          onPressed: () async{
+                            paymentMethod= await Navigator.pushNamed(context, "/paymentmethods") as String;
+                            setState((){});
+                          },
+
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                    side: BorderSide(color: Colors.red)
+                                ),),),
+                          child: Text(paymentMethod!=""?" ${paymentMethod} ": "Select", style: TextStyle(color: Colors.green.shade300),)
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
             // Divider(),
             // Container(
@@ -466,7 +486,7 @@ class _CartPageState extends State<CartPage> {
               decoration: BoxDecoration(
                 // borderRadius: BorderRadius.circular(20)
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(18),
                 color: Colors.green.shade800
               ),
               margin:  EdgeInsets.only(bottom: 10, left: 30, right: 30),
