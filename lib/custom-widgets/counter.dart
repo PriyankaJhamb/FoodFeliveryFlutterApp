@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/custom-widgets/ShowSnackBar.dart';
 import 'package:fooddelivery/model/dish-model-for-cart.dart';
 import 'package:fooddelivery/util/constants.dart';
 
@@ -132,8 +133,16 @@ class _CounterState extends State<Counter> {
               //         ),
               onTap: () {
                 setState(() {
-                  initialvalue++;
-                  updateDishInCart();
+                  if (Util.appUser!.email!=null)
+                    {
+                      initialvalue++;
+                      updateDishInCart();
+                    }
+                  else
+                    {
+                      Show_Snackbar(message: "Wait for sometime.....", context: context );
+                    }
+
                 });
               },
                     )

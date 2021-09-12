@@ -3,9 +3,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/custom-widgets/ShowSnackBar.dart';
+
 import 'package:fooddelivery/pages/location-page.dart';
 import 'package:fooddelivery/pages/restaurants-data-page.dart';
 import 'package:fooddelivery/pages/restaurants.dart';
+import 'package:fooddelivery/pages/tags-page.dart';
 import 'package:fooddelivery/profile/user-profile.dart';
 import 'package:fooddelivery/util/constants.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,34 +48,22 @@ class _HomePageState extends State<HomePage> {
 
 
   check<Widget>(){
-    // FirebaseApp secondaryApp = Firebase.app('FoodDelivery');
-    // User? user = FirebaseAuth.instance.currentUser;
-    // firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instanceFor(app: secondaryApp);
-    // firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref(user!.uid);
-    // print("hi");
-    // return FutureBuilder(
-    //     future: Util.fetchUserDetails(),
-    //     builder: (BuildContext context, AsyncSnapshot snapshot){
-    //       if (snapshot.hasData) {
-            print("if (Util.appUser!.isAdmin == true && index==0) {");
-            if (Util.appUser!.isAdmin == true && index==0) {
-              return IconButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RestaurantsDataPage()));
-                  },
-                  icon: Icon(Icons.add)
-              );
-            }
-            else
-            {
-              return Container();
-            }
-          // else {
-          //   return Container();
-          // }});
+    print("if (Util.appUser!.isAdmin == true && index==0) {");
+    if (Util.appUser!.isAdmin == true && index==0) {
+      return IconButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => RestaurantsDataPage()));
+          },
+          icon: Icon(Icons.add)
+      );
+    }
+    else
+    {
+      return Container();
+    }
   }
 
 
@@ -90,10 +80,10 @@ class _HomePageState extends State<HomePage> {
 
     print("Hi: ${context.runtimeType}");
     List<Widget> widgets = [
-      RestaurantsPage(),
+      TagsPage(),
       // Center(child: Text("Search Page"),),
       // ImagePickerWidget(),
-      LocationPage(),
+      Center(child: Text("Search Page"),),
       UserProfilePage()
     ];
 

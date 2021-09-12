@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fooddelivery/custom-widgets/ShowSnackBar.dart';
 import 'package:fooddelivery/model/user.dart';
 import 'package:fooddelivery/util/constants.dart';
 
@@ -17,7 +18,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
 
   void registerUser(BuildContext context) async{
     try {
-
+      print("in try block of registering");
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: loginIDController.text.trim(),
           password: passwordController.text.trim(),
@@ -49,8 +50,10 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
         showLoader=false;
         //Navigator.pushReplacementNamed(context, "/home");
       }else{
+        Show_Snackbar(message: "Registration Failed", context: context);
         // Registration Failed
         setState(() {
+
           showLoader=false;
           // Show a SnackBar | It will have a message (Login Failed)
           // SnackBar() -> this is a widget which shows and goes off after some time
@@ -322,6 +325,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                     if (_formKey.currentState!.validate()) {
                                       setState(() {
                                         showLoader = true;
+                                        print("showLoader: ${showLoader}");
                                         registerUser(context);
                                       });
 

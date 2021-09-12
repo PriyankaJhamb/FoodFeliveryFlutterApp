@@ -1,3 +1,5 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,7 @@ class Util{
   static AppUser? appUser;
   static Map total={};
   static bool checkpath=false;
+  static String filter="all";
 
   static fetchUserDetails()async{
     print("static fetchUserDetails() async");
@@ -41,10 +44,15 @@ class Util{
     print("Util.appUser!.uid: ${Util.appUser!.uid}");
 
     Util.appUser!.name = document.get('name').toString();
+    print("Util.appUser!.name: ${Util.appUser!.name}");
     Util.appUser!.email = document.get('email').toString();
+    print("Util.appUser!.email: ${Util.appUser!.email}");
+    Util.appUser!.imageUrl = document.get('imageUrl').toString();
     Util.appUser!.imageUrl = document.get('imageUrl').toString();
     Util.appUser!.isAdmin = document.get("isAdmin");
+    Util.appUser!.isAdmin = document.get('isAdmin');
 
-    return appUser;
+
+    return Util.appUser;
   }
 }

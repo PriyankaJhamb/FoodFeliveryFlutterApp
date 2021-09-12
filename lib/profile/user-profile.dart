@@ -1,3 +1,4 @@
+
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +18,8 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfilePageState extends State<UserProfilePage> {
 
-  String imageUrl = "";
+  String imageUrl = Util.appUser!.imageUrl!=null?Util.appUser!.imageUrl!:"";
+
 
   //update user profile
   void UpdateUser(BuildContext context) {
@@ -129,8 +131,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    imageUrl = Util.appUser!.imageUrl!;
-    return ListView(
+
+    return (Util.appUser!.email!=null)?ListView(
       padding: EdgeInsets.all(16),
       children: [
         Card(
@@ -142,8 +144,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
               Padding(padding: EdgeInsets.all(8)),
               InkWell(
                 child: CircleAvatar(
+                  backgroundColor: Colors.green.shade100,
                   backgroundImage: NetworkImage(imageUrl),
-                  radius: 100,
+                  child: imageUrl==""?Icon(Icons.person, size: 160,color: Colors.white,):Container(),
+                  radius: 80,
                 ),
                 onTap: () {
                   _askedToLead();
@@ -189,7 +193,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ),
           subtitle: Text("Manage your Order History here"),
           trailing: Icon(Icons.keyboard_arrow_right_sharp),
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, "/showorders");
+          },
         ),
         ListTile(
           leading: Icon(Icons.home),
@@ -222,6 +228,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
           onTap: () {},
         ),
       ],
-    );
+    ): Center(child: CircularProgressIndicator(),);
   }
 }

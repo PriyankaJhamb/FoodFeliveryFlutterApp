@@ -19,6 +19,7 @@ class _CartPageState extends State<CartPage> {
   String paymentMethod = "";
   String labeladdress="";
   var temp = 0;
+  Timestamp myTimeStamp = Timestamp.fromDate( DateTime. now());
 
 
   fetchDishesInCart() {
@@ -39,8 +40,10 @@ class _CartPageState extends State<CartPage> {
     Order order = Order(
         dishes: dishes,
         total: temp,
-        restaurantID: "restaurantID",
-        address: "address");
+        paymentMethod: paymentMethod,
+        address: labeladdress,
+        timestamp: myTimeStamp
+    );
     var dataToSave = order.toMap();
     // Firebase Insert Operation
     FirebaseFirestore.instance
@@ -245,58 +248,67 @@ class _CartPageState extends State<CartPage> {
                       ],
                     ));
               }).toList()),
-              Divider(),
-              total() != 0
-                  ? ListTile(
-                      title: Text("Total Price"),
-                      trailing: Text(" ₹${total().toString()}"),
-                    )
-                  : Container(),
-              Divider(),
-              Spacer(),
-              Container(
-                padding: EdgeInsets.all(8),
-                // height: 30,
-                // decoration: BoxDecoration(
-                //   borderRadius: BorderRadius.all(Radius.circular(2))
-                //
-                // ),
-                child: Row(
-                  children: [
-                    Text(" Address : "),
-                    Spacer(),
-                    InkWell(
-                        onTap: () async{
-                          Util.checkpath=true;
-                          labeladdress= await Navigator.pushNamed(context, "/useraddresses") as String;
-                          setState((){});
-                        },
-                        child: Text(labeladdress!=""?"${labeladdress} ": "Change")
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Divider(),
+                      total() != 0
+                          ? ListTile(
+                        title: Text("Total Price"),
+                        trailing: Text(" ₹${total().toString()}"),
+                      )
+                          : Container(),
+                      // Divider(),
+                      // Container(
+                      //   padding: EdgeInsets.all(8),
+                      //   // height: 30,
+                      //   // decoration: BoxDecoration(
+                      //   //   borderRadius: BorderRadius.all(Radius.circular(2))
+                      //   //
+                      //   // ),
+                      //   child: Row(
+                      //     children: [
+                      //       Text(" Address : "),
+                      //       Spacer(),
+                      //       InkWell(
+                      //           onTap: () async{
+                      //             Util.checkpath=true;
+                      //             labeladdress= await Navigator.pushNamed(context, "/useraddresses") as String;
+                      //             setState((){});
+                      //           },
+                      //           child: Text(labeladdress!=""?"${labeladdress} ": "Change")
+                      //
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
+                      // Divider(),
+                      // Container(
+                      //   padding: EdgeInsets.all(8),
+                      //   // height: ,
+                      //   child: Row(
+                      //     children: [
+                      //       Text(" Payment Method : "),
+                      //       Spacer(),
+                      //       InkWell(
+                      //           onTap: () async{
+                      //             paymentMethod= await Navigator.pushNamed(context, "/paymentmethods") as String;
+                      //             setState((){});
+                      //           },
+                      //           child: Text(paymentMethod!=""?" ${paymentMethod} ": "Change")
+                      //       ),
 
-                    )
-                  ],
-                ),
-              ),
-              Divider(),
-              Container(
-                padding: EdgeInsets.all(8),
-                // height: ,
-                child: Row(
-                  children: [
-                    Text(" Payment Method : "),
-                    Spacer(),
-                    InkWell(
-                    onTap: () async{
-                          paymentMethod= await Navigator.pushNamed(context, "/paymentmethods") as String;
-                        setState((){});
-                      },
-                      child: Text(paymentMethod!=""?" ${paymentMethod} ": "Change")
-                    ),
-
-                  ],
+                      //     ],
+                      //   ),
+                      // ),
+                      // Divider(),
+                    ],
                   ),
-              ),
-              Divider(),
+                ),
+              )
             ]);}
           }),
       // bottomNavigationBar: BottomAppBar(
@@ -316,6 +328,105 @@ class _CartPageState extends State<CartPage> {
       //     ],
       //   ),
       // ),
+      bottomNavigationBar:  Container(
+        child: total() != 0?Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Divider(),
+            Container(
+              padding: EdgeInsets.only(left: 18, right: 18),
+              // height: 30,
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.all(Radius.circular(2))
+              //
+              // ),
+              child: Row(
+                children: [
+                  Text(" Address : "),
+                  Spacer(),
+                  ElevatedButton(
+                    // style: ,
+                      onPressed: () async{
+                        Util.checkpath=true;
+                        labeladdress= await Navigator.pushNamed(context, "/useraddresses") as String;
+                        setState((){});
+                      },
+                      child: Text(labeladdress!=""?"${labeladdress} ": "Select")
+
+                  )
+                ],
+              ),
+            ),
+            Divider(),
+            Container(
+              padding: EdgeInsets.only(left: 18, right: 18),
+              // height: ,
+              child: Row(
+                children: [
+                  Text(" Payment Method : "),
+                  Spacer(),
+                  ElevatedButton(
+                      onPressed: () async{
+                        paymentMethod= await Navigator.pushNamed(context, "/paymentmethods") as String;
+                        setState((){});
+                      },
+                      child: Text(paymentMethod!=""?" ${paymentMethod} ": "Select")
+                  ),
+
+                ],
+              ),
+            ),
+            Divider(),
+        Container(
+            width: 120,
+            height: 50,
+            padding: EdgeInsets.only(bottom: 10),
+            child: FloatingActionButton(
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                      width: 1.0, color: Colors.green, style: BorderStyle.solid),
+                  borderRadius: BorderRadius.circular(10)),
+              backgroundColor: Colors.green.shade50,
+              onPressed: () async {
+                myTimeStamp = Timestamp.fromDate( DateTime. now());
+                if (total()!=0){
+                if(paymentMethod.isNotEmpty){
+                int result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RazorPayPaymentPage(amount: temp),
+                    ));
+                print("result : $result");
+                if (result == 1) {
+                  // Save the data i.e. Dishes as Order in Orders Collection under User
+                  // Order Object -> 1. List of Dishes, 2. Total 3. Address, 4. Restaurant Details
+                  placeOrder();
+                  // print(dishes);
+                  clearCart();
+                  print("clear cart");
+                  navigateToSuccess();}
+                }}
+                else
+                  {
+
+                  }
+              },
+              child: Text(
+                "PLACE ORDER",
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'RobotoMono',
+                    color: Colors.green),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+            ],
+          ): Column(
+          mainAxisSize: MainAxisSize.min,
+        ),
+        ),
 
       // Container(
       //   padding: EdgeInsets.all(16),
@@ -367,51 +478,51 @@ class _CartPageState extends State<CartPage> {
       //   ),
       // ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        width: 120,
-        height: 50,
-        padding: EdgeInsets.only(bottom: 10),
-        child: FloatingActionButton(
-          shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  width: 1.0, color: Colors.green, style: BorderStyle.solid),
-              borderRadius: BorderRadius.circular(10)),
-          backgroundColor: Colors.green.shade50,
-          onPressed: () async {
-            if (total()!=0){
-            if(paymentMethod.isNotEmpty){
-            int result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RazorPayPaymentPage(amount: temp),
-                ));
-            print("result : $result");
-            if (result == 1) {
-              // Save the data i.e. Dishes as Order in Orders Collection under User
-              // Order Object -> 1. List of Dishes, 2. Total 3. Address, 4. Restaurant Details
-              placeOrder();
-              // print(dishes);
-              clearCart();
-              print("clear cart");
-              navigateToSuccess();}
-            }}
-            else
-              {
-
-              }
-          },
-          child: Text(
-            "PLACE ORDER",
-            style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'RobotoMono',
-                color: Colors.green),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: Container(
+      //   width: 120,
+      //   height: 50,
+      //   padding: EdgeInsets.only(bottom: 10),
+      //   child: FloatingActionButton(
+      //     shape: RoundedRectangleBorder(
+      //         side: BorderSide(
+      //             width: 1.0, color: Colors.green, style: BorderStyle.solid),
+      //         borderRadius: BorderRadius.circular(10)),
+      //     backgroundColor: Colors.green.shade50,
+      //     onPressed: () async {
+      //       if (total()!=0){
+      //       if(paymentMethod.isNotEmpty){
+      //       int result = await Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => RazorPayPaymentPage(amount: temp),
+      //           ));
+      //       print("result : $result");
+      //       if (result == 1) {
+      //         // Save the data i.e. Dishes as Order in Orders Collection under User
+      //         // Order Object -> 1. List of Dishes, 2. Total 3. Address, 4. Restaurant Details
+      //         placeOrder();
+      //         // print(dishes);
+      //         clearCart();
+      //         print("clear cart");
+      //         navigateToSuccess();}
+      //       }}
+      //       else
+      //         {
+      //
+      //         }
+      //     },
+      //     child: Text(
+      //       "PLACE ORDER",
+      //       style: TextStyle(
+      //           fontSize: 14,
+      //           fontWeight: FontWeight.w500,
+      //           fontFamily: 'RobotoMono',
+      //           color: Colors.green),
+      //       textAlign: TextAlign.center,
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

@@ -31,7 +31,7 @@ class _RazorPayPaymentPageState extends State<RazorPayPaymentPage> {
       'amount': widget.amount,
       'name': Util.APP_NAME,
       'description': 'Food Order',
-      'prefill': {'contact': Util.appUser!.name.toString(), 'email': Util.appUser!.email.toString()},
+      'prefill': {'contact': 1111111111, 'email': Util.appUser!.email.toString()},
       'external': {
         'wallets': ['paytm']
       }

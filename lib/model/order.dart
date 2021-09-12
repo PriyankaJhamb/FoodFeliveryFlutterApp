@@ -1,20 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Order{
   List? dishes;
   int? total;
-  String? restaurantID;
+  String? paymentMethod;
   String? address;
+  Timestamp? timestamp;
 
-  Order({this.dishes, this.total, this.restaurantID, this.address});
+  Order({this.dishes, this.total, this.paymentMethod, this.address, this.timestamp});
 
   @override
   String toString() {
-    return 'Order{dishes: $dishes, total: $total, restaurantID: $restaurantID, address: $address}';
+    return 'Order{dishes: $dishes, total: $total, paymentMethod: $paymentMethod, address: $address, timestamp: $timestamp}';
   }
 
   toMap()=>{
     'dishes': dishes,
     'total': total,
-    'restaurantID' : restaurantID,
-    'address':address
+    'paymentMethod' : paymentMethod,
+    'address':address,
+    'timestamp': timestamp
   };
 }
