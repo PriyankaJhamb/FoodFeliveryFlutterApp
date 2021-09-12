@@ -17,19 +17,19 @@ class _TagsPageState extends State<TagsPage> {
     Stream<DocumentSnapshot> stream= FirebaseFirestore.instance.collection(Util.EXTRAS_COLLECTION).doc('tags').snapshots();
     return stream;
   }
-  // void UpdateTag(BuildContext context, String string) {
-  //   print(Util.appUser!.uid);
-  //   print(Util. appUser!.imageUrl);
-  //   FirebaseFirestore.instance
-  //       .collection(Util.EXTRAS_COLLECTION)
-  //       .doc("tags")
-  //       .update({"filterOption": string});
-  //
-  //   Util.filter=string;
-  //
-  //   print(string);
-  //   // then((value) => Navigator.pushReplacementNamed(context, "/home"));
-  // }
+  void UpdateTag(BuildContext context, String string) {
+    print(Util.appUser!.uid);
+    print(Util. appUser!.imageUrl);
+    FirebaseFirestore.instance
+        .collection(Util.EXTRAS_COLLECTION)
+        .doc("tags")
+        .update({"filterOption": string});
+
+    Util.filter=string;
+
+    print(string);
+    // then((value) => Navigator.pushReplacementNamed(context, "/home"));
+  }
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -71,9 +71,9 @@ class _TagsPageState extends State<TagsPage> {
 
                         child: ElevatedButton(
                           onPressed: () {
-                              // UpdateTag(context, snapshot.data["tags"][index]
-                              //    .toString());
-                            Util.filter=snapshot.data["tags"][index];
+                              UpdateTag(context, snapshot.data["tags"][index]
+                                 .toString());
+                            // Util.filter=snapshot.data["tags"][index];
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Util.filter==snapshot.data["tags"][index]?Colors.green:Colors.green.shade200
