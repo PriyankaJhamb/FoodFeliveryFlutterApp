@@ -18,13 +18,13 @@ class _TagsPageState extends State<TagsPage> {
     return stream;
   }
   void UpdateTag(BuildContext context, String string) {
-    print(Util.appUser!.uid);
-    print(Util. appUser!.imageUrl);
-    FirebaseFirestore.instance
-        .collection(Util.EXTRAS_COLLECTION)
-        .doc("tags")
-        .update({"filterOption": string});
-
+    // print(Util.appUser!.uid);
+    // print(Util. appUser!.imageUrl);
+    // FirebaseFirestore.instance
+    //     .collection(Util.EXTRAS_COLLECTION)
+    //     .doc("tags")
+    //     .update({"filterOption": string});
+    //
     Util.filter=string;
 
     print(string);
@@ -71,8 +71,11 @@ class _TagsPageState extends State<TagsPage> {
 
                         child: ElevatedButton(
                           onPressed: () {
+                            setState(() {
                               UpdateTag(context, snapshot.data["tags"][index]
-                                 .toString());
+                                  .toString());
+                            });
+
                             // Util.filter=snapshot.data["tags"][index];
                           },
                           style: ElevatedButton.styleFrom(
@@ -87,7 +90,7 @@ class _TagsPageState extends State<TagsPage> {
                 )
             ),
             // RestaurantsPage(filter: "all")
-            RestaurantsPage()
+            RestaurantsPage(filter: Util.filter)
           ],
         );
       }

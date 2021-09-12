@@ -83,7 +83,7 @@ class _ShowOrdersState extends State<ShowOrders> {
                   // (map["dishes"])!.map<Map<String, dynamic>>((element){Map<String, dynamic> map1=element.data()! as Map<String, dynamic>; print(map1);list.add(map1["name"]);print(map1["name"]);});
                     return DataRow(
                         cells: <DataCell>[
-                          DataCell(Text(map["timestamp"].toDate().toString())),
+                          DataCell(Text(map["timestamp"].toDate())),
                           DataCell(Text(list.toString())),
                           DataCell(Text(map["total"].toString())),
                           DataCell(Text(map["paymentMethod"].toString())),

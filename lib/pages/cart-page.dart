@@ -19,6 +19,7 @@ class _CartPageState extends State<CartPage> {
   String paymentMethod = "";
   String labeladdress="";
   var temp ;
+  bool empty=false;
   Timestamp myTimeStamp = Timestamp.fromDate( DateTime. now());
 
 
@@ -91,7 +92,10 @@ class _CartPageState extends State<CartPage> {
       Util.total.values.forEach((element) {
         total += element as int;
       });
-      temp = total;
+
+        temp = total;
+
+
       return total;
     }
 
@@ -142,6 +146,7 @@ class _CartPageState extends State<CartPage> {
           });*/
 
         if(snapshot.data.docs.isEmpty){
+          empty=true;
           return Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -160,6 +165,7 @@ class _CartPageState extends State<CartPage> {
           );
         }
         else{
+          empty=false;
           dishes=[];
             return ListView(padding: EdgeInsets.all(12), children: [
               Column(
@@ -332,71 +338,104 @@ class _CartPageState extends State<CartPage> {
       //   ),
       // ),
       bottomNavigationBar:  Container(
+        padding: EdgeInsets.all(18),
         child:
-        // temp!= 0
-        //     ?
+        empty==false
+            ?
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Divider(),
-            Container(
-              padding: EdgeInsets.only(left: 18, right: 18),
-              // height: 30,
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.all(Radius.circular(2))
-              //
-              // ),
-              child: Row(
-                children: [
-                  Text(" Address : "),
-                  Spacer(),
-                  ElevatedButton(
-                    // style: ,
-                      onPressed: () async{
-                        Util.checkpath=true;
-                        labeladdress= await Navigator.pushNamed(context, "/useraddresses") as String;
-                        setState((){});
-                      },
-                      child: Text(labeladdress!=""?"${labeladdress} ": "Select")
+            Row(
+              children: [
+                Column(
+                  children: [
+                    Text(" Delivery Address "),
+                    OutlinedButton(
+                      // style: ,
+                        onPressed: () async{
+                          Util.checkpath=true;
+                          labeladdress= await Navigator.pushNamed(context, "/useraddresses") as String;
+                          setState((){});
+                        },
+                        child: Text(labeladdress!=""?"${labeladdress} ": "Select")
 
-                  )
-                ],
-              ),
-            ),
-            Divider(),
-            Container(
-              padding: EdgeInsets.only(left: 18, right: 18),
-              // height: ,
-              child: Row(
-                children: [
-                  Text(" Payment Method : "),
-                  Spacer(),
-                  ElevatedButton(
-                      onPressed: () async{
-                        paymentMethod= await Navigator.pushNamed(context, "/paymentmethods") as String;
-                        setState((){});
-                      },
-                      child: Text(paymentMethod!=""?" ${paymentMethod} ": "Select")
-                  ),
+                    )
+                  ],
+                ),
+                Spacer(),
+                Column(
+                  children: [
+                    Text(" Payment Method "),
+                    OutlinedButton(
+                        onPressed: () async{
+                          paymentMethod= await Navigator.pushNamed(context, "/paymentmethods") as String;
+                          setState((){});
+                        },
+                        style: ElevatedButton.styleFrom(
+                          // padding: EdgeInsets.all(0)
 
-                ],
-              ),
+                        ),
+                        child: Text(paymentMethod!=""?" ${paymentMethod} ": "Select")
+                    ),
+                  ],
+                )
+              ],
             ),
-            Divider(),
-        Container(
-            width: 120,
-            height: 50,
-            padding: EdgeInsets.only(bottom: 10),
-            child: FloatingActionButton(
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                      width: 1.0, color: Colors.green, style: BorderStyle.solid),
-                  borderRadius: BorderRadius.circular(10)),
-              backgroundColor: Colors.green.shade50,
-              onPressed: () async {
-                myTimeStamp = Timestamp.fromDate( DateTime. now());
-                if (total()!=0){
-                if(paymentMethod.isNotEmpty){
+            // Divider(),
+            // Container(
+            //   padding: EdgeInsets.only(left: 18, right: 18),
+            //   // height: 30,
+            //   // decoration: BoxDecoratiosn(
+            //   //   borderRadius: BorderRadius.all(Radius.circular(2))
+            //   //
+            //   // ),
+            //   child: Row(
+            //
+            //     children: [
+            //       Text(" Address : "),
+            //       Spacer(),
+            //       OutlinedButton(
+            //         // style: ,
+            //           onPressed: () async{
+            //             Util.checkpath=true;
+            //             labeladdress= await Navigator.pushNamed(context, "/useraddresses") as String;
+            //             setState((){});
+            //           },
+            //           child: Text(labeladdress!=""?"${labeladdress} ": "Select")
+            //
+            //       )
+            //     ],
+            //   ),
+            // ),
+            // Divider(),
+            // Container(
+            //   padding: EdgeInsets.only(left: 18, right: 18),
+            //   // height: ,
+            //   child: Row(
+            //     children: [
+            //       Text(" Payment Method : "),
+            //       Spacer(),
+            //       OutlinedButton(
+            //           onPressed: () async{
+            //             paymentMethod= await Navigator.pushNamed(context, "/paymentmethods") as String;
+            //             setState((){});
+            //           },
+            //           style: ElevatedButton.styleFrom(
+            //             // padding: EdgeInsets.all(0)
+            //           ),
+            //           child: Text(paymentMethod!=""?" ${paymentMethod} ": "Select")
+            //       ),
+            //
+            //     ],
+            //   ),
+            // ),
+            // Divider(),
+            SizedBox(height: 30,),
+        InkWell(
+          onTap:() async {
+            myTimeStamp = Timestamp.fromDate(DateTime.now());
+            if (total() != 0) {
+              if (paymentMethod.isNotEmpty) {
                 int result = await Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -410,30 +449,46 @@ class _CartPageState extends State<CartPage> {
                   // print(dishes);
                   clearCart();
                   print("clear cart");
-                  navigateToSuccess();}
-                }}
-                else
-                  {
+                  navigateToSuccess();
+                }
+              }
+            }
+            else {
 
-                  }
-              },
+            }
+
+          },
+          child: Container(
+              width: MediaQuery.of(context).size.width,
+
+              // height: 30,
+              // color: Colors.green,
+              decoration: BoxDecoration(
+                // borderRadius: BorderRadius.circular(20)
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.green.shade800
+              ),
+              margin:  EdgeInsets.only(bottom: 10, left: 30, right: 30),
+              padding: EdgeInsets.all(12),
               child: Text(
-                "PLACE ORDER",
+                "Checkout",
                 style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'RobotoMono',
-                    color: Colors.green),
+                    fontSize: 18,
+                    // fontWeight: FontWeight.w500,
+                    // fontFamily: 'RobotoMono',
+                    color: Colors.white),
                 textAlign: TextAlign.center,
               ),
             ),
-          ),
+        ),
+            SizedBox(height: 10,)
             ],
           )
-        //     :
-        // Column(
-        //   mainAxisSize: MainAxisSize.min,
-        // ),
+            :
+        Column(
+          mainAxisSize: MainAxisSize.min,
+        ),
         ),
 
       // Container(
