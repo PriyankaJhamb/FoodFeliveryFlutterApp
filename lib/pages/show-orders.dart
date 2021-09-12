@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/db/provider.dart';
 import 'package:fooddelivery/util/constants.dart';
 
 class ShowOrders extends StatefulWidget {
@@ -10,6 +11,10 @@ class ShowOrders extends StatefulWidget {
 }
 
 class _ShowOrdersState extends State<ShowOrders> {
+
+  // fetchOrders(){
+  //   var order=context.watch<DataProvider>().orders;
+  // }
 
   @override
   Widget build(BuildContext context) {
