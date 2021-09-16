@@ -25,8 +25,18 @@ class _TagsPageState extends State<TagsPage> {
     //     .doc("tags")
     //     .update({"filterOption": string});
     //
-    Util.filter=string;
 
+    if (string=="all"){
+      Util.filterlist=["all"];
+    }
+    else if( Util.filterlist.contains("all")){
+      Util.filterlist=[];
+      Util.filterlist.add(string);
+    }
+    else
+      {
+        Util.filterlist.add(string);
+      }
     print(string);
     // then((value) => Navigator.pushReplacementNamed(context, "/home"));
   }
@@ -79,7 +89,7 @@ class _TagsPageState extends State<TagsPage> {
                             // Util.filter=snapshot.data["tags"][index];
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Util.filter==snapshot.data["tags"][index]?Colors.green:Colors.green.shade200
+                            primary: Util.filterlist.contains(snapshot.data["tags"][index])?Colors.green:Colors.green.shade200
                           ),
                           child: Text(snapshot.data["tags"][index]
                                 .toString()),
@@ -90,7 +100,7 @@ class _TagsPageState extends State<TagsPage> {
                 )
             ),
             // RestaurantsPage(filter: "all")
-            RestaurantsPage(filter: Util.filter)
+            RestaurantsPage()
           ],
         );
       }

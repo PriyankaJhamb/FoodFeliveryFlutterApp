@@ -104,7 +104,7 @@ class _UserAddressesPageState extends State<UserAddressesPage> {
                     contentPadding: EdgeInsets.all(16),
                     onTap: (){
                       if (Util.checkpath) {
-                        Navigator.pop(context, map["label"]);
+                        Navigator.pop(context, map["label"]+"+"+ map["address"]);
                       }
                     },
                     tileColor: Colors.green.shade50,

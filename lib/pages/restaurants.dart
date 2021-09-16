@@ -6,8 +6,9 @@ import 'package:fooddelivery/pages/dishes.dart';
 import 'package:fooddelivery/util/constants.dart';
 
 class RestaurantsPage extends StatefulWidget {
-  String filter=Util.filter;
-  RestaurantsPage({Key? key, @required filter}) : super(key: key);
+  // String filter=Util.filter;
+  // List filterList=Util.filterlist;
+  RestaurantsPage({Key? key}) : super(key: key);
 
 
   @override
@@ -20,7 +21,7 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
     Stream<QuerySnapshot> stream;
     //Stream is a Collection i.e. a List of QuerySnapshot
     //QuerySnapshot is our Document :)
-    if (widget.filter=="all")
+    if (Util.filterlist.contains("all"))
       {
         print("all");
         stream = FirebaseFirestore.instance.collection(Util.RESTAURANT_COLLECTION).snapshots();
@@ -28,9 +29,9 @@ class _RestaurantsPageState extends State<RestaurantsPage> {
       }
     else
       {
-        print("widget.filter: ${widget.filter}");
+        print("Util.filterlist: ${Util.filterlist}");
         stream= FirebaseFirestore.instance.collection(Util.RESTAURANT_COLLECTION)
-            .where("tags", arrayContains:widget.filter).snapshots();
+            .where("tags", arrayContainsAny:Util.filterlist).snapshots();
 
       }
     return stream;

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +23,8 @@ class _CartPageState extends State<CartPage> {
   var temp ;
   bool empty=false;
   Timestamp myTimeStamp = Timestamp.fromDate( DateTime. now());
+  var r = Random();
+
 
 
   fetchDishesInCart() {
@@ -44,7 +48,8 @@ class _CartPageState extends State<CartPage> {
         total: temp,
         paymentMethod: paymentMethod,
         address: labeladdress,
-        timestamp: myTimeStamp
+        timestamp: myTimeStamp,
+        id: List.generate(10, (index) => Util.const_chars[r.nextInt(Util.const_chars.length)]).join()
     );
     var dataToSave = order.toMap();
     // Firebase Insert Operation
@@ -83,6 +88,7 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
+
     dishes = [];
     print("Cart Page : ${Util.appUser!.uid}: ${Util.appUser!.uid}");
     Util.total = {};
@@ -352,6 +358,7 @@ class _CartPageState extends State<CartPage> {
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Colors.green.shade50,
+                  // color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(18)
               ),
               child: Row(
@@ -370,7 +377,8 @@ class _CartPageState extends State<CartPage> {
                               ),),),
                           onPressed: () async{
                             Util.checkpath=true;
-                            labeladdress= await Navigator.pushNamed(context, "/useraddresses") as String;
+                            var address= await Navigator.pushNamed(context, "/useraddresses") as String;
+                            labeladdress=address.split("+")[0];
                             setState((){});
                           },
                           child: Text(labeladdress!=""?"${labeladdress} ": "Select", style: TextStyle(color: Colors.green.shade300))

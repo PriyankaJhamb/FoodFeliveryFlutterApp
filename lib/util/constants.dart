@@ -30,6 +30,9 @@ class Util{
   static Map total={};
   static bool checkpath=false;
   static String filter="all";
+  static List filterlist=["all"];
+  static String const_chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
 
   static fetchUserDetails()async{
     print("static fetchUserDetails() async");

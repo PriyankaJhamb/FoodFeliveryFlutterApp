@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/db/provider.dart';
+import 'package:fooddelivery/pages/more-info-order.dart';
 import 'package:provider/provider.dart';
 import 'package:fooddelivery/util/constants.dart';
 
@@ -54,48 +55,70 @@ class _ShowOrdersState extends State<ShowOrders> {
               child: Text(" Orders List ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 24, ),)),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: context.watch<DataProvider>().orders!=null?DataTable(
-                columns: <DataColumn>[
-                  DataColumn(
-                    label: Text("TimeStamp")
-                  ),
-                  DataColumn(
-                      label: Text("Dishes")
-                  ),
-                  DataColumn(
-                      label: Text("Total")
-                  ),
-                  DataColumn(
-                      label: Text("Payment Method")
-                  ),
-                  DataColumn(
-                      label: Text("Address")
-                  ),
-                ],
-                rows:(context.watch<DataProvider>().orders!).map<DataRow>((DocumentSnapshot document) {
-                  list=[];
-                  Map<String, dynamic> map=document.data()! as Map<String, dynamic>;
-                  print("map ${map["dishes"]} ");
+            child: context.watch<DataProvider>().orders!=null?Container(
+              height: MediaQuery.of(context).size.height,
+              child: DataTable(
+                  columns: <DataColumn>[
+                    DataColumn(
+                      label: Text("TimeStamp")
+                    ),
+                    DataColumn(
+                        label: Text("Dishes")
+                    ),
+                    DataColumn(
+                        label: Text("Total")
+                    ),
+                    DataColumn(
+                        label: Text("Click to more info",)
+                    )
+                    // DataColumn(
+                    //     label: Text("Payment Method")
+                    // ),
+                    // DataColumn(
+                    //     label: Text("Address")
+                    // ),
+                  ],
+                  rows:(context.watch<DataProvider>().orders!).map<DataRow>((DocumentSnapshot document) {
+                    list=[];
+                    Map<String, dynamic> map=document.data()! as Map<String, dynamic>;
+                    print("map ${map["dishes"]} ");
 
-                  map["dishes"].forEach((element) => {
-                     list.add(element["name"])
-                  });
-                  // (map["dishes"])!.map<Map<String, dynamic>>((element){Map<String, dynamic> map1=element.data()! as Map<String, dynamic>; print(map1);list.add(map1["name"]);print(map1["name"]);});
-                    return DataRow(
-                        cells: <DataCell>[
-                          DataCell(Text(map["timestamp"].toDate().toString())),
-                          DataCell(Text(list.toString())),
-                          DataCell(Text(map["total"].toString())),
-                          DataCell(Text(map["paymentMethod"].toString())),
-                          DataCell(Text(map["address"])),
-                        ]
-                    );
+                    map["dishes"].forEach((element) => {
+                       list.add(element["name"])
+                    });
+                    // (map["dishes"])!.map<Map<String, dynamic>>((element){Map<String, dynamic> map1=element.data()! as Map<String, dynamic>; print(map1);list.add(map1["name"]);print(map1["name"]);});
+                      return DataRow(
+                          cells: <DataCell>[
+                            DataCell(Text(map["timestamp"].toDate().toString())),
+                            DataCell(Text(list.toString())),
+                            DataCell(Text(map["total"].toString())),
+                            DataCell(
+                                InkWell(
+                                    onTap: (){
+                                      Map map1=map;
+                                      print("map : $map1");
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => ShowOrderMoreInfo(map: map1,)),
+                                      );
 
-                }
-                ).toList()
+                                    },
+                                    child: Text("View More", style: TextStyle(color: Colors.blue),)
+                                )
+                            ),
 
 
-            ):Center(child: Text("Nothing has been ordered yet..")),
+                            // DataCell(Text(map["paymentMethod"].toString())),
+                            // DataCell(Text(map["address"])),
+                          ]
+                      );
+
+                  }
+                  ).toList()
+
+
+              ),
+            ):Center(child: Center(child: Text("Loading..") ,)),
           )
         ],
       ),

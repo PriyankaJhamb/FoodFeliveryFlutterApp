@@ -6,12 +6,14 @@ class Order{
   String? paymentMethod;
   String? address;
   Timestamp? timestamp;
+  String? id;
 
-  Order({this.dishes, this.total, this.paymentMethod, this.address, this.timestamp});
+
+  Order({this.dishes, this.total, this.paymentMethod, this.address, this.timestamp, this.id});
 
   @override
   String toString() {
-    return 'Order{dishes: $dishes, total: $total, paymentMethod: $paymentMethod, address: $address, timestamp: $timestamp}';
+    return 'Order{dishes: $dishes, total: $total, paymentMethod: $paymentMethod, address: $address, timestamp: $timestamp, id: $id}';
   }
 
   toMap()=>{
@@ -19,6 +21,7 @@ class Order{
     'total': total,
     'paymentMethod' : paymentMethod,
     'address':address,
-    'timestamp': timestamp
+    'timestamp': timestamp,
+    'id':id
   };
 }
