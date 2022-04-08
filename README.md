@@ -1,6 +1,10 @@
 # fooddelivery
 
 ## Splash and Register Page
+
+
+
+
 <img class=mobile-image src="https://user-images.githubusercontent.com/74251229/162436892-78f53b84-a124-47af-b466-c2e43e17c7d7.png" />
 <img class=mobile-image src="https://user-images.githubusercontent.com/74251229/162436910-4a16058a-9b23-460a-971f-75d26315a977.png" />
 
@@ -13,6 +17,10 @@
     display: inline-block;
   }
 </style>
+
+
+
+
 ![image](https://user-images.githubusercontent.com/74251229/162436892-78f53b84-a124-47af-b466-c2e43e17c7d7.png)
 
 ![image](https://user-images.githubusercontent.com/74251229/162436910-4a16058a-9b23-460a-971f-75d26315a977.png)
