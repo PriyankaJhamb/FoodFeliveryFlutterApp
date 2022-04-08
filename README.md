@@ -1,6 +1,6 @@
 # fooddelivery
 
-## Splash and Register Page
+<!-- ## Splash and Register Page -->
 
 
 <div>
