@@ -1,6 +1,8 @@
 # fooddelivery
 
-<!-- ## Splash and Register Page -->
+<!-- ## Splash and Register Page
+![image](https://user-images.githubusercontent.com/74251229/162450769-b5b4d808-6e8a-4c5b-8d0e-34a5292c3bd2.png)
+ -->
 
 
 <div>
