@@ -5,19 +5,8 @@
 
 
 
-<img class=mobile-image src="https://user-images.githubusercontent.com/74251229/162436892-78f53b84-a124-47af-b466-c2e43e17c7d7.png" />
-<img class=mobile-image src="https://user-images.githubusercontent.com/74251229/162436910-4a16058a-9b23-460a-971f-75d26315a977.png" />
-
-<style>
-  .img {
-    display: inline-block;
-  }
-  img.mobile-image {
-    width: 49%;
-    display: inline-block;
-  }
-</style>
-
+<img style="float: left" src="https://user-images.githubusercontent.com/74251229/162436892-78f53b84-a124-47af-b466-c2e43e17c7d7.png" />
+<img style="float: right" src="https://user-images.githubusercontent.com/74251229/162436910-4a16058a-9b23-460a-971f-75d26315a977.png" />
 
 
 
