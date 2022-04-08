@@ -5,8 +5,8 @@
 
 
 <div class="row">
-      <img align="left" src="https://user-images.githubusercontent.com/74251229/162436892-78f53b84-a124-47af-b466-c2e43e17c7d7.png"  height=800 width=450 />
-      <img align="right"  src="https://user-images.githubusercontent.com/74251229/162436910-4a16058a-9b23-460a-971f-75d26315a977.png" height=800 width=450 />
+      <img align="left" src="https://user-images.githubusercontent.com/74251229/162436892-78f53b84-a124-47af-b466-c2e43e17c7d7.png"  height=800 width=49%/>
+      <img align="right"  src="https://user-images.githubusercontent.com/74251229/162436910-4a16058a-9b23-460a-971f-75d26315a977.png" height=800 width=49% />
 </div>
                                                                                                                                      
 
