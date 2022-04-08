@@ -1,6 +1,6 @@
 # fooddelivery
 
-## Splash and Register Page
+<!-- ## Splash and Register Page -->
 
 
 
@@ -11,7 +11,7 @@
                                                                                                                                      
 
 
-## Login Page
+<!-- ## Login Page -->
 
                                                                                                                                                                                                                                                                    
 <div class="row">
@@ -24,7 +24,7 @@
 <br/>
 
 
-## Profile Page
+<!-- ## Profile Page -->
 
                                                                                                                                                                                                                                                                    
 <div class="row">
@@ -37,7 +37,7 @@
 <br/>
 
 
-## Restaurant and Dishes Page if access is of admin
+<!-- ## Restaurant and Dishes Page if access is of admin -->
 
 <div class="row">
 <img align="left" src="https://user-images.githubusercontent.com/74251229/162437058-b58ab055-befc-4902-a17d-189ceb989501.png"  height=800 width=480 />
@@ -68,7 +68,7 @@
 <br/>
 
 
-## Restaurant and Dishes Page if access is of not admin
+<!-- ## Restaurant and Dishes Page if access is of not admin -->
 
 
 <div class="row">
@@ -82,7 +82,7 @@
 
 
 
-## Adding Dish and Cart Page
+<!-- ## Adding Dish and Cart Page -->
 
 
 <div class="row">
@@ -117,7 +117,7 @@
 
 
 
-## Show Orders after clicking on More orders button on profile page
+<!-- ## Show Orders after clicking on More orders button on profile page -->
 
 
 <div class="row">
@@ -130,7 +130,7 @@
 <br/>
 
 
-## Specific Order Information after clicking on View More and App Icon
+<!-- ## Specific Order Information after clicking on View More and App Icon -->
 
 
 <div class="row">
