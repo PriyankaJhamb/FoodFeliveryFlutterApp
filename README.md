@@ -1,6 +1,6 @@
-<!-- # fooddelivery -->
+# fooddelivery
 
-<!-- ## Splash and Register Page -->
+## Splash and Register Page
 
 
 
@@ -11,12 +11,12 @@
                                                                                                                                      
 
 
-<!-- ## Login Page -->
+## Login Page
 
                                                                                                                                                                                                                                                                    
 <div class="row">
-<img align="left" src="https://user-images.githubusercontent.com/74251229/162436946-760af47d-1ad7-40c8-9dfc-41c2091986f6.png"  height=800 width=480 />
-<img align="right"  src="https://user-images.githubusercontent.com/74251229/162436960-c72f7115-509f-4184-8c50-e1dc57c1a27c.png" height=800 width=490 />
+<img align="left" src="https://user-images.githubusercontent.com/74251229/162436946-760af47d-1ad7-40c8-9dfc-41c2091986f6.png"  height=800 width=45% />
+<img align="right"  src="https://user-images.githubusercontent.com/74251229/162436960-c72f7115-509f-4184-8c50-e1dc57c1a27c.png" height=800 width=45% />
 </div>
 
 <br/>
