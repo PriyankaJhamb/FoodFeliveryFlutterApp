@@ -3,20 +3,17 @@
 ## Splash and Register Page
 
 
-<div class="row">
+<div>
       <img align="left" src="https://user-images.githubusercontent.com/74251229/162436892-78f53b84-a124-47af-b466-c2e43e17c7d7.png"  height=800 width=45%></img>
-      <img align="right"  src="https://user-images.githubusercontent.com/74251229/162436910-4a16058a-9b23-460a-971f-75d26315a977.png" height=800 width=45% ></img>
-</div>
+      <img align="right"  src="https://user-images.githubusercontent.com/74251229/162436910-4a16058a-9b23-460a-971f-75d26315a977.png" height=800 width=45%></img>
+</div><br><br>
   
-<br/>
-<br/>
-<br/>
 
-<div><h2>Login Page </h2> </div>
+<!-- <div><h2>Login Page </h2> </div> -->
 <!-- ## Login Page -->
 
                                                                                                                                                                                                                                                                    
-<div class="row">
+<div>
 <img align="left" src="https://user-images.githubusercontent.com/74251229/162436946-760af47d-1ad7-40c8-9dfc-41c2091986f6.png"  height=800 width=45% />
 <img align="right"  src="https://user-images.githubusercontent.com/74251229/162436960-c72f7115-509f-4184-8c50-e1dc57c1a27c.png" height=800 width=45% />
 </div>
